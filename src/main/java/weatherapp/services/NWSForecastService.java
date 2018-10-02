@@ -9,15 +9,15 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NWSForecastService implements ForecastService {
+public class NWSForecastService implements IForecastService {
 
-    private final String INFO_URL = "https://api.weather.gov/points/%f,%f";
+    private final String BASE_URL = "https://api.weather.gov/points/%f,%f";
 
     private RestTemplate rest = new RestTemplate();
 
     @Override
     public WeatherReport getCurrentWeather(CoordPair coords) throws RuntimeException {
-        JsonNode info_root = rest.getForObject(String.format(INFO_URL, coords.getLatitude(), coords.getLongitude()), JsonNode.class);
+        JsonNode info_root = rest.getForObject(String.format(BASE_URL, coords.getLatitude(), coords.getLongitude()), JsonNode.class);
         JsonNode data_root = rest.getForObject(info_root.get("properties").get("forecast").asText(), JsonNode.class);
 
         // Report coordinates
@@ -36,7 +36,7 @@ public class NWSForecastService implements ForecastService {
 
     @Override
     public List<WeatherReport> getHourlyWeather(CoordPair coords) throws RuntimeException {
-        JsonNode info_root = rest.getForObject(String.format(INFO_URL, coords.getLatitude(), coords.getLongitude()), JsonNode.class);
+        JsonNode info_root = rest.getForObject(String.format(BASE_URL, coords.getLatitude(), coords.getLongitude()), JsonNode.class);
         JsonNode data_root = rest.getForObject(info_root.get("properties").get("forecastHourly").asText(), JsonNode.class);
 
         // Report coordinates
@@ -62,8 +62,8 @@ public class NWSForecastService implements ForecastService {
 
     @Override
     public List<WeatherReport> get5DayWeather(CoordPair coords) throws RuntimeException {
-        JsonNode info_root = rest.getForObject(String.format(INFO_URL, coords.getLatitude(), coords.getLongitude()), JsonNode.class);
-        JsonNode data_root = rest.getForObject(info_root.get("properties").get("forecastHourly").asText(), JsonNode.class);
+        JsonNode info_root = rest.getForObject(String.format(BASE_URL, coords.getLatitude(), coords.getLongitude()), JsonNode.class);
+        JsonNode data_root = rest.getForObject(info_root.get("properties").get("forecast").asText(), JsonNode.class);
 
         // Report coordinates
         double lat = info_root.get("properties").get("relativeLocation").get("geometry").get("coordinates").get(1).asDouble();

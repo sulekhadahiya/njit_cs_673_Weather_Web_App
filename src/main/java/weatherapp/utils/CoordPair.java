@@ -24,4 +24,9 @@ public class CoordPair {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public String toString() {
+        return String.format("<CoordPair(%f, %f)>", this.latitude, this.longitude);
+    }
 }

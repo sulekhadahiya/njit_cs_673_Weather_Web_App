@@ -5,7 +5,7 @@ import weatherapp.utils.CoordPair;
 
 import java.util.List;
 
-public interface ForecastService {
+public interface IForecastService {
     // Get the current weather forecast.
     WeatherReport getCurrentWeather(CoordPair coords) throws RuntimeException;
 

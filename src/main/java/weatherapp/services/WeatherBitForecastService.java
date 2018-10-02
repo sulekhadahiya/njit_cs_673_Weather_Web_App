@@ -6,7 +6,7 @@ import weatherapp.utils.CoordPair;
 
 import java.util.List;
 
-public class WeatherBitForecastService implements ForecastService {
+public class WeatherBitForecastService implements IForecastService {
 
     private final String BASE_URL = "http://api.weatherbit.io/v2.0/";
 
