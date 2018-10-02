@@ -28,7 +28,7 @@ public class WeatherBitForecastService implements ForecastService {
     }
 
     @Override
-    public List<WeatherReport> get10DayWeather(CoordPair coords) throws Exception {
+    public List<WeatherReport> get10DayWeather(CoordPair coords) throws RuntimeException {
         return null;
     }
 }

@@ -34,9 +34,9 @@ public class ForecastController {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(RuntimeException.class)
     @ResponseBody ErrorResponse
-    handleException(HttpServletRequest req, Exception ex) {
+    handleRuntimeException(HttpServletRequest req, Exception ex) {
         return new ErrorResponse(req.getRequestURL().toString(), ex.getLocalizedMessage());
     }
 
