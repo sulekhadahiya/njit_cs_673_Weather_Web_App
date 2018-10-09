@@ -21,13 +21,13 @@ public class NWSForecastServiceTest {
         assertEquals("Roeland Park, KS", report.name);
         assertNotNull(report.timestamp);
 
-        assertNotEquals(0.0, report.temp, 0.0);
+//        assertNotEquals(0.0, report.temp, 0.0);
         assertNotEquals(0, report.windSpeed.length());
         assertNotEquals(0, report.windDir.length());
         assertNotEquals(0, report.shortForecast.length());
         assertNotEquals(0, report.longForecast.length());
 
-//        System.out.println(report.toString());
+//        System.out.println(report);
     }
 
     @Test
@@ -41,13 +41,15 @@ public class NWSForecastServiceTest {
             assertEquals("Roeland Park, KS", report.name);
             assertNotNull(report.timestamp);
 
-            assertNotEquals(0.0, report.temp, 0.0);
+//            assertNotEquals(0.0, report.temp, 0.0);
             assertNotEquals(0, report.windSpeed.length());
             assertNotEquals(0, report.windDir.length());
             assertNotEquals(0, report.shortForecast.length());
         }
 
-//        System.out.println(reports.toString());
+//        for (WeatherReport report : reports) {
+//            System.out.println(report);
+//        }
     }
 
     @Test
@@ -61,13 +63,15 @@ public class NWSForecastServiceTest {
             assertEquals("Roeland Park, KS", report.name);
             assertNotNull(report.timestamp);
 
-            assertNotEquals(0.0, report.temp, 0.0);
+//            assertNotEquals(0.0, report.temp, 0.0);
             assertNotEquals(0, report.windSpeed.length());
             assertNotEquals(0, report.windDir.length());
             assertNotEquals(0, report.shortForecast.length());
         }
 
-//        System.out.println(reports.toString());
+//        for (WeatherReport report : reports) {
+//            System.out.println(report);
+//        }
     }
 
     @Test(expected = UnsupportedOperationException.class)

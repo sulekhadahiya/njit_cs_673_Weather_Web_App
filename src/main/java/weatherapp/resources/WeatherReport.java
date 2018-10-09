@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import weatherapp.utils.CoordPair;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class WeatherReport {
     // Metadata
@@ -12,7 +13,7 @@ public class WeatherReport {
     public ZonedDateTime timestamp;
 
     // Weather information
-    public double temp;
+    public int temp;
     public String windSpeed;
     public String windDir;
     public String shortForecast;
@@ -20,12 +21,15 @@ public class WeatherReport {
 
     @Override
     public String toString() {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
+        return String.format("<WeatherReport(coords: %s, name: \"%s\", timestamp: \"%s\", temp: %d, windSpeed: \"%s\", windDir: \"%s\", shortForecast: \"%s\", longForecast: \"%s\")>",
+                this.coords.toString(), this.name, this.timestamp.format(DateTimeFormatter.ISO_ZONED_DATE_TIME),
+                this.temp, this.windSpeed, this.windDir, this.shortForecast, this.longForecast);
+//        try {
+//            ObjectMapper mapper = new ObjectMapper();
+//            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "";
+//        }
     }
 }
