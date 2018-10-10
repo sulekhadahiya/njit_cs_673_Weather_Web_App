@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
 public class WeatherBitForecastServiceTest {
     private static WeatherBitForecastService service = new WeatherBitForecastService();
     private static CoordPair testPoint = new CoordPair(39.0693, -94.6716);
-    private static CoordPair expectedPoint = new CoordPair(39.07, -94.67);
 
     @Test(expected = UnsupportedOperationException.class)
     public void getCurrentWeather() {
@@ -39,10 +38,7 @@ public class WeatherBitForecastServiceTest {
             assertEquals("Mission, KS", report.name);
             assertNotNull(report.timestamp);
 
-//            assertNotEquals(0.0, report.temp, 0.0);
-            assertNotEquals(0, report.windSpeed.length());
-            assertNotEquals(0, report.windDir.length());
-            assertNotEquals(0, report.shortForecast.length());
+            assertNotEquals(0, report.summary.length());
         }
 
 //        for (WeatherReport report : reports) {

@@ -24,6 +24,6 @@ public class MapQuestGeolocationService implements IGeolocationService {
         double lat = coords_node.get("lat").asDouble();
         double lon = coords_node.get("lng").asDouble();
 
-        return new CoordPair(lat, lon);
+        return new CoordPair(lat, lon, location);
     }
 }

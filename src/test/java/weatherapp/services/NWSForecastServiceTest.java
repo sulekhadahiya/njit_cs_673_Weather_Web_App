@@ -21,11 +21,7 @@ public class NWSForecastServiceTest {
         assertEquals("Roeland Park, KS", report.name);
         assertNotNull(report.timestamp);
 
-//        assertNotEquals(0.0, report.temp, 0.0);
-        assertNotEquals(0, report.windSpeed.length());
-        assertNotEquals(0, report.windDir.length());
-        assertNotEquals(0, report.shortForecast.length());
-        assertNotEquals(0, report.longForecast.length());
+        assertNotEquals(0, report.summary.length());
 
 //        System.out.println(report);
     }
@@ -41,10 +37,7 @@ public class NWSForecastServiceTest {
             assertEquals("Roeland Park, KS", report.name);
             assertNotNull(report.timestamp);
 
-//            assertNotEquals(0.0, report.temp, 0.0);
-            assertNotEquals(0, report.windSpeed.length());
-            assertNotEquals(0, report.windDir.length());
-            assertNotEquals(0, report.shortForecast.length());
+            assertNotEquals(0, report.summary.length());
         }
 
 //        for (WeatherReport report : reports) {
@@ -63,10 +56,7 @@ public class NWSForecastServiceTest {
             assertEquals("Roeland Park, KS", report.name);
             assertNotNull(report.timestamp);
 
-//            assertNotEquals(0.0, report.temp, 0.0);
-            assertNotEquals(0, report.windSpeed.length());
-            assertNotEquals(0, report.windDir.length());
-            assertNotEquals(0, report.shortForecast.length());
+            assertNotEquals(0, report.summary.length());
         }
 
 //        for (WeatherReport report : reports) {

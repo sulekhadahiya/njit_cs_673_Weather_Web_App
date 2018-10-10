@@ -28,5 +28,6 @@ targetCompatibility = 1.8
 dependencies {
   compile("org.springframework.boot:spring-boot-starter-web")
   compile("org.apache.httpcomponents:httpclient")
+  compile("org.jsoup:jsoup:1.11.3")
   testCompile("org.springframework.boot:spring-boot-starter-test")
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class WeatherBitForecastService implements IForecastService {
 
-    private final String BASE_URL = "http://api.weatherbit.io/v2.0/forecast/daily?lat=%f&lon=%f&days=10&key=%s";
+    private final String BASE_URL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=%f&lon=%f&days=10&key=%s&units=I";
     private final String API_KEY = "fde1b1119c354d5a941acd8c294b8b17";
 
     private RestTemplate rest = new RestTemplate();
@@ -54,19 +54,28 @@ public class WeatherBitForecastService implements IForecastService {
 
             JsonNode data = root.get("data").get(i);
 
-            // Metadata
             report.coords = new CoordPair(lat, lon);
             report.name = name;
-
-            // Timestamp
             report.timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(data.get("ts").asInt()), timezone);
 
             // Weather information (temp is given in C)
-            report.temp = (int)Math.floor(((data.get("temp").asDouble() * 9.0) / 5.0) + 32.0);
-            report.windSpeed = new Double(data.get("wind_spd").asText()).toString() + " mph";
-            report.windDir = data.get("wind_cdir").asText();
-            report.shortForecast = data.get("weather").get("description").asText();
-            report.longForecast = "";
+            report.temp = (int)Math.round(data.get("temp").asDouble());
+            report.temp_low = (int)Math.round(data.get("min_temp").asDouble());
+            report.temp_high = (int)Math.round(data.get("max_temp").asDouble());
+            report.dew_point = (int)Math.round(data.get("dewpt").asDouble());
+
+            double app_temp = (data.get("app_max_temp").asDouble() + data.get("app_min_temp").asDouble()) / 2.0;
+            report.temp_feels_like = (int)Math.round(app_temp);
+
+            report.wind_speed = (int)Math.round(data.get("wind_spd").asDouble());
+            report.wind_direction = data.get("wind_cdir").asText();
+
+            report.humidity = data.get("rh").asInt();
+            report.pressure = (int)Math.round(data.get("pres").asDouble());
+
+            report.precipitation_probability = data.get("pop").asInt();
+
+            report.summary = data.get("weather").get("description").asText();
 
             reports.add(i, report);
         }
