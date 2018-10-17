@@ -15,9 +15,12 @@ public class MapQuestGeolocationService implements IGeolocationService {
 
     @Override
     public CoordPair locationToCoords(String location) throws LocationNotFoundException {
-        JsonNode root = rest.getForObject(String.format(BASE_URL, API_KEY, location), JsonNode.class);
+        JsonNode root = rest.getForObject(String.format(BASE_URL, API_KEY, location + ", USA"), JsonNode.class);
 
-        if (root == null) throw new LocationNotFoundException();
+        if (root == null) {
+            System.out.println("Could not find " + location);
+            throw new LocationNotFoundException();
+        }
 
         JsonNode coords_node = root.get("results").get(0).get("locations").get(0).get("latLng");
 
