@@ -1,9 +1,16 @@
+/*
+ * Copyright (c) 2018.
+ */
+
 buildscript {
+  ext {
+    springBootVersion = '2.0.6.RELEASE'
+  }
   repositories {
     mavenCentral()
   }
   dependencies {
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
   }
 }
 
@@ -22,11 +29,15 @@ repositories {
   mavenCentral()
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 dependencies {
-  compile("org.springframework.boot:spring-boot-starter-web")
+  implementation('org.springframework.boot:spring-boot-starter-web')
+  implementation('org.springframework.boot:spring-boot-starter-actuator')
+  implementation('org.springframework.boot:spring-boot-starter-data-mongodb')
+  runtimeOnly('org.springframework.boot:spring-boot-devtools')
   compile("org.apache.httpcomponents:httpclient")
-  testCompile("org.springframework.boot:spring-boot-starter-test")
+  compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+  testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
