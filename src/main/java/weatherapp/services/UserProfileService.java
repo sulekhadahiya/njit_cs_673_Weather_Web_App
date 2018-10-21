@@ -9,6 +9,7 @@ package weatherapp.services;
  * njit_cs_673_Weather_Web_App, 2018
  */
 
+import org.springframework.web.multipart.MultipartFile;
 import weatherapp.domain.dbmodel.UserProfile;
 
 public interface UserProfileService {
@@ -26,6 +27,8 @@ public interface UserProfileService {
      * @return
      */
     UserProfile deleteUserProfile(String email);
+
+    UserProfile saveProfilePhoto(MultipartFile profilePhoto, String email) throws Exception;
 
 
 }

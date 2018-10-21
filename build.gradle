@@ -29,10 +29,15 @@ repositories {
   mavenCentral()
 }
 
+ext {
+  springCloudVersion = 'Finchley.SR1'
+}
+
 sourceCompatibility = 11
 targetCompatibility = 11
 
 dependencies {
+  implementation('org.springframework.cloud:spring-cloud-starter-aws')
   implementation('org.springframework.boot:spring-boot-starter-web')
   implementation('org.springframework.boot:spring-boot-starter-actuator')
   implementation('org.springframework.boot:spring-boot-starter-data-mongodb')
@@ -40,4 +45,10 @@ dependencies {
   compile("org.apache.httpcomponents:httpclient")
   compile("org.springframework.boot:spring-boot-starter-data-mongodb")
   testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+  imports {
+    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+  }
 }

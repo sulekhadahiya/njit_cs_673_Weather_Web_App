@@ -12,6 +12,7 @@ package weatherapp.controllers.rest;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import weatherapp.domain.dbmodel.UserProfile;
+import weatherapp.domain.restmodel.ProfilePhotoRest;
 import weatherapp.domain.restmodel.UserProfileRest;
 import weatherapp.services.UserProfileService;
 
@@ -29,12 +30,20 @@ public class UserProfileController {
     @PostMapping(value = "/create")
     public UserProfileRest createUserProfile(@RequestBody UserProfileRest userProfileRest) {
         UserProfile userProfile = userProfileRest.userProfileRestToUserProfile();
-        UserProfile createdUserProfile1 = this.userProfileService.createUserProfile(userProfile);
-        return UserProfileRest.userprofileToUserProfileRest(createdUserProfile1);
+        UserProfile createdUserProfile = this.userProfileService.createUserProfile(userProfile);
+        return UserProfileRest.userprofileToUserProfileRest(createdUserProfile);
     }
 
     @DeleteMapping(value = "/remove")
     public UserProfile deleteUserProfile(String email) {
         return this.userProfileService.deleteUserProfile(email);
     }
+
+    @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public UserProfile uploadUserPhoto(ProfilePhotoRest profilePhotoRest) throws Exception {
+        UserProfile savedUserProfile = userProfileService.saveProfilePhoto(profilePhotoRest.getProfilePhoto(), profilePhotoRest.getEmail());
+        return savedUserProfile;
+    }
+
+
 }
