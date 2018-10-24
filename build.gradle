@@ -33,9 +33,6 @@ ext {
   springCloudVersion = 'Finchley.SR1'
 }
 
-sourceCompatibility = 11
-targetCompatibility = 11
-
 dependencies {
   implementation('org.springframework.cloud:spring-cloud-starter-aws')
   implementation('org.springframework.boot:spring-boot-starter-web')

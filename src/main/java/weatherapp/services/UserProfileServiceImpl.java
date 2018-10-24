@@ -71,7 +71,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             return null;
         }
 
-        if (Objects.isNull(email) || email.isEmpty() || email.isBlank()) {
+        if (Objects.isNull(email) || email.isEmpty() || email.length() == 0) {
             return null;
         }
 

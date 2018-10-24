@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import weatherapp.utils.CoordPair;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class WeatherReport {
     // Metadata
@@ -11,21 +12,37 @@ public class WeatherReport {
     public String name;
     public ZonedDateTime timestamp;
 
-    // Weather information
-    public double temp;
-    public String windSpeed;
-    public String windDir;
-    public String shortForecast;
-    public String longForecast;
+    // Temperature data
+    public int temp;
+    public int temp_low;
+    public int temp_high;
+    public int temp_feels_like;
+    public int dew_point;
+
+    // Wind data
+    public int wind_speed;
+    public String wind_direction;
+
+    // Other data
+    public int humidity;
+    public int pressure;
+
+    // Precipitation
+    public int precipitation_probability;
+
+    // Summary
+    public String summary;
 
     @Override
     public String toString() {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
+        return String.format("<WeatherReport(coords: %s, " +
+                        "temp: %d, temp_feels_like: %d, " +
+                        "wind_speed: %d, wind_direction: \"%s\", humidity: %s, dew_point: %s, pressure: %s, " +
+                        "precipitation_probability: %d, precipitation_type: \"%s\"" +
+                        "summary: \"%s\")>", this.coords.toString(),
+                this.temp, this.temp_feels_like,
+                this.wind_speed, this.wind_direction, this.humidity, this.dew_point, this.pressure,
+                this.precipitation_probability,
+                this.summary);
     }
 }

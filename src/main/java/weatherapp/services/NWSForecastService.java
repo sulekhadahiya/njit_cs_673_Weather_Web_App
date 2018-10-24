@@ -94,19 +94,15 @@ public class NWSForecastService implements IForecastService {
     private WeatherReport createWeatherReport(JsonNode data_node, double lat, double lon, String name) {
         WeatherReport report = new WeatherReport();
 
-        // Metadata
         report.coords = new CoordPair(lat, lon);
         report.name = name;
-
-        // Timestamp
         report.timestamp = ZonedDateTime.parse(data_node.get("startTime").asText());
 
-        // Weather information
-        report.temp = (double)data_node.get("temperature").asInt();
-        report.windSpeed = data_node.get("windSpeed").asText();
-        report.windDir = data_node.get("windDirection").asText();
-        report.shortForecast = data_node.get("shortForecast").asText();
-        report.longForecast = data_node.get("detailedForecast").asText();
+        report.temp = data_node.get("temperature").asInt();
+        report.wind_speed = new Integer(data_node.get("windSpeed").asText().split(" ")[0]);
+        report.wind_direction = data_node.get("windDirection").asText();
+
+        report.summary = data_node.get("shortForecast").asText();
 
         return report;
     }
