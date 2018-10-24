@@ -21,6 +21,8 @@ public interface UserProfileService {
      */
     UserProfile createUserProfile(UserProfile userProfile);
 
+    UserProfile getUserProfileByEmail(String email);
+
     /**
      * declare a method that will delete a user profile
      *
@@ -29,6 +31,8 @@ public interface UserProfileService {
     UserProfile deleteUserProfile(String email);
 
     UserProfile saveProfilePhoto(MultipartFile profilePhoto, String email) throws Exception;
+
+    byte[] getUserProfilePhotoByEmail(String email) throws Exception;
 
 
 }

@@ -10,8 +10,9 @@ package weatherapp.services;
  */
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import weatherapp.domain.dbmodel.UserProfile;
@@ -23,6 +24,7 @@ import java.util.Objects;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
+    private static final Logger logger = LoggerFactory.getLogger(UserProfileServiceImpl.class);
     // UserProfileService needs to access repository layer so that it can save user profile data
     // in database
     private UserProfileRepository userProfileRepository;
@@ -47,6 +49,12 @@ public class UserProfileServiceImpl implements UserProfileService {
         return savedUserProfile;
     }
 
+    @Override
+    public UserProfile getUserProfileByEmail(String email) {
+        UserProfile userProfile = this.userProfileRepository.findByEmail(email);
+        return userProfile;
+    }
+
     /**
      * declare a method that will delete a user profile
      *
@@ -60,6 +68,11 @@ public class UserProfileServiceImpl implements UserProfileService {
             throw new RuntimeException("User profile corresponding to this email address does not exist");
         } else {
             userProfileRepository.delete(userProfile);
+            if (Objects.nonNull(userProfile.getProfilePhoto())) {
+                String profilePhotoKey = userProfile.getProfilePhoto();
+                DeleteObjectRequest deleteRequest = new DeleteObjectRequest(bucketName, profilePhotoKey);
+                amazonS3Client.deleteObject(deleteRequest);
+            }
         }
         return userProfile;
     }
@@ -71,7 +84,12 @@ public class UserProfileServiceImpl implements UserProfileService {
             return null;
         }
 
-        if (Objects.isNull(email) || email.isEmpty() || email.isBlank()) {
+        if (Objects.isNull(email) || email.isEmpty() || email.length() == 0) {
+            return null;
+        }
+
+        UserProfile userProfilebyEmail = this.getUserProfileByEmail(email);
+        if (Objects.isNull(userProfilebyEmail)) {
             return null;
         }
 
@@ -80,10 +98,24 @@ public class UserProfileServiceImpl implements UserProfileService {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(bytes.length);
 
+        String key = email + "-" + profilePhoto.getOriginalFilename();
         PutObjectRequest request = new PutObjectRequest(bucketName,
-                email + "-" + profilePhoto.getOriginalFilename(), new ByteArrayInputStream(bytes), objectMetadata);
+                key, new ByteArrayInputStream(bytes), objectMetadata);
 
-        amazonS3Client.putObject(request);
-        return null;
+        PutObjectResult putObjectResult = amazonS3Client.putObject(request);
+        logger.info(putObjectResult.toString());
+        userProfilebyEmail.setProfilePhoto(key);
+        UserProfile updatedUserProfile = this.userProfileRepository.save(userProfilebyEmail);
+        return updatedUserProfile;
+    }
+
+    @Override
+    public byte[] getUserProfilePhotoByEmail(String email) throws IOException {
+        UserProfile userProfile = this.getUserProfileByEmail(email);
+        GetObjectRequest userProfilePhotoRequest = new GetObjectRequest(bucketName, userProfile.getProfilePhoto());
+        S3Object userProfilePhoto = amazonS3Client.getObject(userProfilePhotoRequest);
+        S3ObjectInputStream objectContent = userProfilePhoto.getObjectContent();
+        byte[] photoBytes = objectContent.readAllBytes();
+        return photoBytes;
     }
 }

@@ -20,6 +20,7 @@ public class UserProfileRest {
     private String email;
     private Map<String, AddressRest> addresses = new HashMap<>();
     private List<String> favouriteCities = new ArrayList<>();
+    private String profilePhoto;
 
     public UserProfileRest() {
     }
@@ -31,6 +32,7 @@ public class UserProfileRest {
         userProfileRest.setName(NameRest.nameToNameRestConverter(userProfile.getName()));
         userProfileRest.setAddresses(addressMapToAddressRestMap(userProfile.getAddresses()));
         userProfileRest.setFavouriteCities(userProfile.getFavouriteCities());
+        userProfileRest.setProfilePhoto(userProfile.getProfilePhoto());
         return userProfileRest;
     }
 
@@ -71,6 +73,14 @@ public class UserProfileRest {
 
     public void setAddresses(Map<String, AddressRest> addresses) {
         this.addresses = addresses;
+    }
+
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
     }
 
     public List<String> getFavouriteCities() {
