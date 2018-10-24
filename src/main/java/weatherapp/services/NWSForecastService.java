@@ -99,7 +99,7 @@ public class NWSForecastService implements IForecastService {
         report.timestamp = ZonedDateTime.parse(data_node.get("startTime").asText());
 
         report.temp = data_node.get("temperature").asInt();
-        report.wind_speed = new Integer(data_node.get("windSpeed").asText().split(" ")[0]);
+        report.wind_speed = Integer.getInteger(data_node.get("windSpeed").asText().split(" ")[0]);
         report.wind_direction = data_node.get("windDirection").asText();
 
         report.summary = data_node.get("shortForecast").asText();

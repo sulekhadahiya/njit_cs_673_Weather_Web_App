@@ -2,7 +2,6 @@ package weatherapp.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import sun.misc.Request;
 import weatherapp.controllers.responses.ErrorResponse;
 import weatherapp.controllers.responses.RadarResponse;
 import weatherapp.controllers.responses.TempMapResponse;
