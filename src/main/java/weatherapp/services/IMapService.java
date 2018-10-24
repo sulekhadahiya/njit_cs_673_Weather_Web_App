@@ -2,7 +2,12 @@ package weatherapp.services;
 
 import weatherapp.utils.CoordPair;
 
-public interface IRadarService {
+import java.util.List;
+
+public interface IMapService {
     // Get URL for current radar map.
     String getRadarMapURL(CoordPair coords, boolean animated) throws RuntimeException;
+
+    // Get URLs for current temperature maps.
+    List<String> getTempMapURLs() throws RuntimeException;
 }
