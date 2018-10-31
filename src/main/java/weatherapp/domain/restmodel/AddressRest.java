@@ -27,7 +27,7 @@ public class AddressRest {
     private String phoneNumber;
     @NotNull
     private String country;
-    private LocationCoordinatesRest locationCoordinatesRest;
+    private LocationCoordinatesRest locationCoordinatesRest = new LocationCoordinatesRest();
 
 
     public AddressRest() {

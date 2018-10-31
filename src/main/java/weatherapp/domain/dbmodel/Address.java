@@ -18,7 +18,7 @@ public class Address {
     private String zipCode;
     private String phoneNumber;
     private String country;
-    private LocationCoordinates locationCoordinates;
+    private LocationCoordinates locationCoordinates = new LocationCoordinates();
 
     public Address() {
 

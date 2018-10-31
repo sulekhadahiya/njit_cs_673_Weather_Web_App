@@ -62,10 +62,10 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public UserProfile updateUserProfileByEmail(String email, UserProfile userProfile) {
         UserProfile userProfileByEmail = this.getUserProfileByEmail(email);
+        userProfile.setId(userProfileByEmail.getId());
         if (Objects.isNull(userProfile.getId())) {
             throw new RuntimeException("User profile corresponding to this email does not exist.");
         }
-        userProfile.setId(userProfileByEmail.getId());
         //Otherwise the photo will be replaced by some unknown photo, use separate Rest endpoint to update photo.
         userProfile.setProfilePhoto(userProfileByEmail.getProfilePhoto());
         UserProfile updatedUserProfile = this.userProfileRepository.save(userProfile);
