@@ -11,15 +11,24 @@ package weatherapp.domain.restmodel;
 
 import weatherapp.domain.dbmodel.Address;
 
+import javax.validation.constraints.NotNull;
+
 public class AddressRest {
 
+    @NotNull
     private String street;
     private String apartment;
+    @NotNull
     private String city;
+    @NotNull
     private String state;
+    @NotNull
     private String zipCode;
     private String phoneNumber;
+    @NotNull
     private String country;
+    private LocationCoordinatesRest locationCoordinatesRest;
+
 
     public AddressRest() {
 
@@ -34,7 +43,8 @@ public class AddressRest {
         addressRest.setZipCode(address.getZipCode());
         addressRest.setCountry(address.getCountry());
         addressRest.setStreet(address.getStreet());
-
+        LocationCoordinatesRest locationCoordinatesRest = LocationCoordinatesRest.locationCoordinatesToLocationCoordinatesRest(address.getLocationCoordinates());
+        addressRest.setLocationCoordinatesRest(locationCoordinatesRest);
         return addressRest;
     }
 
@@ -94,6 +104,14 @@ public class AddressRest {
         this.country = country;
     }
 
+    public LocationCoordinatesRest getLocationCoordinatesRest() {
+        return locationCoordinatesRest;
+    }
+
+    public void setLocationCoordinatesRest(LocationCoordinatesRest locationCoordinatesRest) {
+        this.locationCoordinatesRest = locationCoordinatesRest;
+    }
+
     public Address addressRestToAddressConverter() {
         //create a new empty Address object
         Address address = new Address();
@@ -103,6 +121,7 @@ public class AddressRest {
         address.setZipCode(this.getZipCode());
         address.setApartment(this.getApartment());
         address.setStreet(this.getStreet());
+        address.setLocationCoordinates(this.locationCoordinatesRest.locationCoordinatesRestToLocationCoordinates());
         //return the cloned address
         return address;
     }

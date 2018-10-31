@@ -45,6 +45,10 @@ public class UserProfileServiceImpl implements UserProfileService {
      */
     @Override
     public UserProfile createUserProfile(UserProfile userProfile) {
+        UserProfile userProfileByEmail = this.getUserProfileByEmail(userProfile.getEmail());
+        if (Objects.nonNull(userProfileByEmail)) {
+            throw new RuntimeException("User profile corresponding to this email already exist.");
+        }
         UserProfile savedUserProfile = this.userProfileRepository.insert(userProfile);
         return savedUserProfile;
     }
@@ -53,6 +57,19 @@ public class UserProfileServiceImpl implements UserProfileService {
     public UserProfile getUserProfileByEmail(String email) {
         UserProfile userProfile = this.userProfileRepository.findByEmail(email);
         return userProfile;
+    }
+
+    @Override
+    public UserProfile updateUserProfileByEmail(String email, UserProfile userProfile) {
+        UserProfile userProfileByEmail = this.getUserProfileByEmail(email);
+        if (Objects.isNull(userProfile.getId())) {
+            throw new RuntimeException("User profile corresponding to this email does not exist.");
+        }
+        userProfile.setId(userProfileByEmail.getId());
+        //Otherwise the photo will be replaced by some unknown photo, use separate Rest endpoint to update photo.
+        userProfile.setProfilePhoto(userProfileByEmail.getProfilePhoto());
+        UserProfile updatedUserProfile = this.userProfileRepository.save(userProfile);
+        return updatedUserProfile;
     }
 
     /**

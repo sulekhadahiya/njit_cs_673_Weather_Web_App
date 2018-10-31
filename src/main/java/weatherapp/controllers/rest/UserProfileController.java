@@ -37,10 +37,17 @@ public class UserProfileController {
     }
 
 
-    @GetMapping(value = "/get-user-profile/{email}/", consumes = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(value = "/get-user-profile/{email}/")
     public UserProfileRest getUserProfile(@PathVariable(value = "email") String email) {
         UserProfile userProfile = this.userProfileService.getUserProfileByEmail(email);
         return UserProfileRest.userprofileToUserProfileRest(userProfile);
+    }
+
+    @PutMapping(value = "/update-user-profile/{existingEmail}/")
+    public UserProfileRest updateUserProfile(@PathVariable(value = "existingEmail") String existingEmail, @RequestBody UserProfileRest userProfileRest) {
+        UserProfile userProfile = userProfileRest.userProfileRestToUserProfile();
+        UserProfile savedUserProfile = this.userProfileService.updateUserProfileByEmail(existingEmail, userProfile);
+        return UserProfileRest.userprofileToUserProfileRest(savedUserProfile);
     }
 
     @DeleteMapping(value = "/remove-user-profile")
@@ -53,7 +60,7 @@ public class UserProfileController {
     @PostMapping(value = "/upload-profile-photo", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public UserProfileRest uploadUserPhoto(ProfilePhotoRest profilePhotoRest) throws Exception {
         logger.info(profilePhotoRest.toString());
-        UserProfile savedUserProfile = userProfileService.saveProfilePhoto(profilePhotoRest.getProfilePhoto(), profilePhotoRest.getEmail());
+        UserProfile savedUserProfile = this.userProfileService.saveProfilePhoto(profilePhotoRest.getProfilePhoto(), profilePhotoRest.getEmail());
         UserProfileRest userProfileRest = UserProfileRest.userprofileToUserProfileRest(savedUserProfile);
         return userProfileRest;
     }

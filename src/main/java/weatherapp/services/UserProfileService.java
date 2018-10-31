@@ -23,6 +23,8 @@ public interface UserProfileService {
 
     UserProfile getUserProfileByEmail(String email);
 
+    UserProfile updateUserProfileByEmail(String existingEmail, UserProfile userProfile);
+
     /**
      * declare a method that will delete a user profile
      *

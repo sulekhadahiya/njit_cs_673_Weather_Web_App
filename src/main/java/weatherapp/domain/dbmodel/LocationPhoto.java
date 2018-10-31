@@ -4,32 +4,23 @@
 
 package weatherapp.domain.dbmodel;
 
+import weatherapp.domain.restmodel.LocationCoordinatesRest;
+
 /**
  * @author sulekha
  * njit_cs_673_Weather_Web_App, 2018
  */
-
-public class Address {
-
+public class LocationPhoto {
     private String street;
-    private String apartment;
     private String city;
     private String state;
     private String zipCode;
     private String phoneNumber;
     private String country;
-    private LocationCoordinates locationCoordinates;
+    private LocationCoordinatesRest locationCoordinatesRest;
+    private String s3PhotoKeyName;
 
-    public Address() {
-
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
+    public LocationPhoto() {
     }
 
     public String getStreet() {
@@ -38,14 +29,6 @@ public class Address {
 
     public void setStreet(String street) {
         this.street = street;
-    }
-
-    public String getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(String apartment) {
-        this.apartment = apartment;
     }
 
     public String getCity() {
@@ -80,39 +63,41 @@ public class Address {
         this.phoneNumber = phoneNumber;
     }
 
-    public LocationCoordinates getLocationCoordinates() {
-        return locationCoordinates;
+    public String getCountry() {
+        return country;
     }
 
-    public void setLocationCoordinates(LocationCoordinates locationCoordinates) {
-        this.locationCoordinates = locationCoordinates;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public Address cloneAddress() {
-        //create a new empty Address object
-        Address address = new Address();
-        address.setCity(this.getCity());
-        address.setPhoneNumber(this.getPhoneNumber());
-        address.setState(this.getState());
-        address.setZipCode(this.getZipCode());
-        address.setApartment(this.getApartment());
-        address.setStreet(this.getStreet());
-        address.setLocationCoordinates(this.locationCoordinates.cloneLocationCoordinates());
-        //return the cloned address
-        return address;
+    public LocationCoordinatesRest getLocationCoordinatesRest() {
+        return locationCoordinatesRest;
+    }
+
+    public void setLocationCoordinatesRest(LocationCoordinatesRest locationCoordinatesRest) {
+        this.locationCoordinatesRest = locationCoordinatesRest;
+    }
+
+    public String getS3PhotoKeyName() {
+        return s3PhotoKeyName;
+    }
+
+    public void setS3PhotoKeyName(String s3PhotoKeyName) {
+        this.s3PhotoKeyName = s3PhotoKeyName;
     }
 
     @Override
     public String toString() {
-        return "Address{" +
+        return "LocationPhoto{" +
                 "street='" + street + '\'' +
-                ", apartment='" + apartment + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", zipCode='" + zipCode + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", country='" + country + '\'' +
-                ", locationCoordinates=" + locationCoordinates +
+                ", locationCoordinatesRest=" + locationCoordinatesRest +
+                ", s3PhotoKeyName='" + s3PhotoKeyName + '\'' +
                 '}';
     }
 }
