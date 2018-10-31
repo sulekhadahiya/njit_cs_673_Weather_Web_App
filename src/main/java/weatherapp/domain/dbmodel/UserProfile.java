@@ -96,7 +96,7 @@ public class UserProfile {
     }
 
     public List<String> getFavouriteCities() {
-        return List.copyOf(this.favouriteCities);
+        return new ArrayList<>(this.favouriteCities);
     }
 
     public void setFavouriteCities(List<String> favouriteCities) {
