@@ -11,6 +11,7 @@ import weatherapp.utils.exceptions.LocationNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class ForecastController {
 
