@@ -21,7 +21,8 @@ public class ForecastController {
     private static final String Get_10DayWeather = "/10day/{location}";
 
     private final IGeolocationService geolocationService = new MapQuestGeolocationService();
-    private final IForecastService shortForecastService = new NWSForecastService();
+//    private final IForecastService shortForecastService = new NWSForecastService();
+    private final IForecastService shortForecastService = new DarkSkyForecastService();
     private final IForecastService longForecastService = new WeatherBitForecastService();
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
