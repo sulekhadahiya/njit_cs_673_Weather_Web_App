@@ -84,12 +84,12 @@ public class UserProfileServiceImpl implements UserProfileService {
         if (Objects.isNull(userProfile)) {
             throw new RuntimeException("User profile corresponding to this email address does not exist");
         } else {
-            userProfileRepository.delete(userProfile);
             if (Objects.nonNull(userProfile.getProfilePhoto())) {
                 String profilePhotoKey = userProfile.getProfilePhoto();
                 DeleteObjectRequest deleteRequest = new DeleteObjectRequest(bucketName, profilePhotoKey);
                 amazonS3Client.deleteObject(deleteRequest);
             }
+            userProfileRepository.delete(userProfile);
         }
         return userProfile;
     }

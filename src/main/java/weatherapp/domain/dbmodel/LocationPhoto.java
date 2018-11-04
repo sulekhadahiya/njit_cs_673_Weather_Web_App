@@ -4,23 +4,49 @@
 
 package weatherapp.domain.dbmodel;
 
-import weatherapp.domain.restmodel.LocationCoordinatesRest;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.TextIndexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.TextScore;
 
 /**
  * @author sulekha
  * njit_cs_673_Weather_Web_App, 2018
  */
+@Document
 public class LocationPhoto {
+    @TextScore
+    Float score;
+    @Id
+    private String id;
+    @TextIndexed
+    private String locationName;
+    @TextIndexed
     private String street;
+    @TextIndexed
     private String city;
+    @TextIndexed
     private String state;
+    @TextIndexed
     private String zipCode;
+    @TextIndexed
     private String phoneNumber;
+    @TextIndexed
     private String country;
-    private LocationCoordinatesRest locationCoordinatesRest;
-    private String s3PhotoKeyName;
-
+    @TextIndexed
+    private LocationCoordinates locationCoordinates;
+    @TextIndexed
+    private String savedLocationPhotoKeyName;
+    private String eTag;
     public LocationPhoto() {
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
     public String getStreet() {
@@ -71,33 +97,59 @@ public class LocationPhoto {
         this.country = country;
     }
 
-    public LocationCoordinatesRest getLocationCoordinatesRest() {
-        return locationCoordinatesRest;
+    public LocationCoordinates getLocationCoordinates() {
+        return locationCoordinates;
     }
 
-    public void setLocationCoordinatesRest(LocationCoordinatesRest locationCoordinatesRest) {
-        this.locationCoordinatesRest = locationCoordinatesRest;
+    public void setLocationCoordinates(LocationCoordinates locationCoordinates) {
+        this.locationCoordinates = locationCoordinates;
     }
 
-    public String getS3PhotoKeyName() {
-        return s3PhotoKeyName;
+    public String getSavedLocationPhotoKeyName() {
+        return savedLocationPhotoKeyName;
     }
 
-    public void setS3PhotoKeyName(String s3PhotoKeyName) {
-        this.s3PhotoKeyName = s3PhotoKeyName;
+    public void setSavedLocationPhotoKeyName(String savedLocationPhotoKeyName) {
+        this.savedLocationPhotoKeyName = savedLocationPhotoKeyName;
+    }
+
+    public String geteTag() {
+        return eTag;
+    }
+
+    public void seteTag(String eTag) {
+        this.eTag = eTag;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
     }
 
     @Override
     public String toString() {
         return "LocationPhoto{" +
-                "street='" + street + '\'' +
+                "locationName='" + locationName + '\'' +
+                ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", zipCode='" + zipCode + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", country='" + country + '\'' +
-                ", locationCoordinatesRest=" + locationCoordinatesRest +
-                ", s3PhotoKeyName='" + s3PhotoKeyName + '\'' +
+                ", locationCoordinates=" + locationCoordinates +
+                ", savedLocationPhotoKeyName='" + savedLocationPhotoKeyName + '\'' +
+                ", eTag='" + eTag + '\'' +
                 '}';
     }
 }

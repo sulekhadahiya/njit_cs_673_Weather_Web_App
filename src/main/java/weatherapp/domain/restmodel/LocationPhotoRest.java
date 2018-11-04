@@ -5,30 +5,58 @@
 package weatherapp.domain.restmodel;
 
 import org.springframework.web.multipart.MultipartFile;
+import weatherapp.domain.dbmodel.LocationCoordinates;
+import weatherapp.domain.dbmodel.LocationPhoto;
 
 /**
  * @author sulekha
  * njit_cs_673_Weather_Web_App, 2018
  */
 public class LocationPhotoRest {
-    private MultipartFile profilePhoto;
+    private MultipartFile locationPhoto;
+    private String locationName;
     private String street;
     private String city;
     private String state;
     private String zipCode;
     private String phoneNumber;
     private String country;
-    private LocationCoordinatesRest locationCoordinatesRest;
+    private String longitude;
+    private String latitude;
 
     public LocationPhotoRest() {
     }
 
-    public MultipartFile getProfilePhoto() {
-        return profilePhoto;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setProfilePhoto(MultipartFile profilePhoto) {
-        this.profilePhoto = profilePhoto;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public MultipartFile getLocationPhoto() {
+        return locationPhoto;
+    }
+
+    public void setLocationPhoto(MultipartFile locationPhoto) {
+        this.locationPhoto = locationPhoto;
     }
 
     public String getStreet() {
@@ -79,25 +107,33 @@ public class LocationPhotoRest {
         this.country = country;
     }
 
-    public LocationCoordinatesRest getLocationCoordinatesRest() {
-        return locationCoordinatesRest;
-    }
 
-    public void setLocationCoordinatesRest(LocationCoordinatesRest locationCoordinatesRest) {
-        this.locationCoordinatesRest = locationCoordinatesRest;
+    public LocationPhoto convertToLocationPhoto() {
+        LocationPhoto locationPhoto = new LocationPhoto();
+        locationPhoto.setCity(this.getCity());
+        locationPhoto.setCountry(this.getCountry());
+        locationPhoto.setLocationCoordinates(new LocationCoordinates(this.longitude, this.latitude));
+        locationPhoto.setPhoneNumber(this.phoneNumber);
+        locationPhoto.setState(this.state);
+        locationPhoto.setStreet(this.street);
+        locationPhoto.setLocationName(this.locationName);
+        locationPhoto.setZipCode(this.zipCode);
+        return locationPhoto;
     }
 
     @Override
     public String toString() {
         return "LocationPhotoRest{" +
-                "profilePhoto=" + profilePhoto.getOriginalFilename() +
+                "locationPhoto=" + locationPhoto +
+                ", locationName='" + locationName + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", zipCode='" + zipCode + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", country='" + country + '\'' +
-                ", locationCoordinatesRest=" + locationCoordinatesRest +
+                ", longitude='" + longitude + '\'' +
+                ", latitude='" + latitude + '\'' +
                 '}';
     }
 }
