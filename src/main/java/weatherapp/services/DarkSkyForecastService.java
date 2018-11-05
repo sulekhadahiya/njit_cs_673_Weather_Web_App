@@ -27,7 +27,7 @@ public class DarkSkyForecastService implements IForecastService {
 
         ZoneId timezone = ZoneId.of(root.get("timezone").asText());
 
-        return createWeatherReport(root.get("currently"), coords, timezone);
+        return createWeatherReport(root.get("currently"), coords, timezone, false);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class DarkSkyForecastService implements IForecastService {
 
         for (int i = 0; i < 24; i++) {
             JsonNode data = root.get("hourly").get("data").get(i);
-            reports.add(i, createWeatherReport(data, coords, timezone));
+            reports.add(i, createWeatherReport(data, coords, timezone, false));
         }
 
         return reports;
@@ -56,7 +56,7 @@ public class DarkSkyForecastService implements IForecastService {
 
         for (int i = 0; i < 5; i++) {
             JsonNode data = root.get("daily").get("data").get(i);
-            reports.add(i, createWeatherReport(data, coords, timezone));
+            reports.add(i, createWeatherReport(data, coords, timezone, true));
         }
 
         return reports;
@@ -67,16 +67,12 @@ public class DarkSkyForecastService implements IForecastService {
         throw new UnsupportedOperationException("This API does not support 10-day weather reports");
     }
 
-    private WeatherReport createWeatherReport(JsonNode data, CoordPair coords, ZoneId timezone) {
+    private WeatherReport createWeatherReport(JsonNode data, CoordPair coords, ZoneId timezone, boolean isDaily) {
         WeatherReport report = new WeatherReport();
 
         report.coords = coords;
         report.name = coords.getName();
         report.timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(data.get("time").asInt()), timezone);
-
-        if (data.has("temperature")) {
-            report.temp = (int)Math.round(data.get("temperature").asDouble());
-        }
 
         if (data.has("temperatureLow")) {
             report.temp_low = (int)Math.round(data.get("temperatureLow").asDouble());
@@ -84,6 +80,14 @@ public class DarkSkyForecastService implements IForecastService {
 
         if (data.has("temperatureHigh")) {
             report.temp_high = (int)Math.round(data.get("temperatureHigh").asDouble());
+        }
+
+        if (isDaily) {
+            report.temp = (report.temp_high + report.temp_low) / 2;
+        } else {
+            if (data.has("temperature")) {
+                report.temp = (int) Math.round(data.get("temperature").asDouble());
+            }
         }
 
         if (data.has("apparentTemperature")) {
