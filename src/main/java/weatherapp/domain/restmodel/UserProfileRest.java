@@ -12,11 +12,13 @@ package weatherapp.domain.restmodel;
 import weatherapp.domain.dbmodel.Address;
 import weatherapp.domain.dbmodel.UserProfile;
 
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 public class UserProfileRest {
 
     private NameRest name;
+    @NotNull
     private String email;
     private Map<String, AddressRest> addresses = new HashMap<>();
     private List<String> favouriteCities = new ArrayList<>();
