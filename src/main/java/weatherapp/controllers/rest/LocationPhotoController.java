@@ -6,6 +6,7 @@ package weatherapp.controllers.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import weatherapp.domain.dbmodel.LocationPhoto;
@@ -32,6 +33,7 @@ public class LocationPhotoController {
     }
 
     @PostMapping(value = "/upload-location-photo", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @ResponseStatus(HttpStatus.CREATED)
     public LocationPhoto uploadLocationPhoto(LocationPhotoRest locationPhotoRest) throws Exception {
         logger.info(locationPhotoRest.toString());
         verifyLocationCoOrdinates(locationPhotoRest);

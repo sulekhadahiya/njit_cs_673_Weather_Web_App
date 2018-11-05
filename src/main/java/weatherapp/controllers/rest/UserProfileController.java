@@ -16,7 +16,14 @@ import org.springframework.web.bind.annotation.*;
 import weatherapp.domain.dbmodel.UserProfile;
 import weatherapp.domain.restmodel.ProfilePhotoRest;
 import weatherapp.domain.restmodel.UserProfileRest;
+import weatherapp.exception.ProfilePhotoDoesNotExistException;
+import weatherapp.exception.ProfilePhotoNotReceivedException;
+import weatherapp.exception.UserProfileAlreadyExist;
+import weatherapp.exception.UserProfileDoesNotExist;
 import weatherapp.services.UserProfileService;
+
+import java.util.Map;
+import java.util.Objects;
 
 @RequestMapping(value = "/userprofile", consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,6 +37,7 @@ public class UserProfileController {
     }
 
     @PostMapping(value = "/create-user-profile")
+    @ResponseStatus(HttpStatus.CREATED)
     public UserProfileRest createUserProfile(@RequestBody UserProfileRest userProfileRest) {
         UserProfile userProfile = userProfileRest.userProfileRestToUserProfile();
         UserProfile createdUserProfile = this.userProfileService.createUserProfile(userProfile);
@@ -40,6 +48,9 @@ public class UserProfileController {
     @GetMapping(value = "/get-user-profile/{email}/")
     public UserProfileRest getUserProfile(@PathVariable(value = "email") String email) {
         UserProfile userProfile = this.userProfileService.getUserProfileByEmail(email);
+        if (Objects.isNull(userProfile)) {
+            throw new UserProfileDoesNotExist("User Profile does not Exist.");
+        }
         return UserProfileRest.userprofileToUserProfileRest(userProfile);
     }
 
@@ -58,6 +69,7 @@ public class UserProfileController {
     }
 
     @PostMapping(value = "/upload-profile-photo", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @ResponseStatus(HttpStatus.CREATED)
     public UserProfileRest uploadUserPhoto(ProfilePhotoRest profilePhotoRest) throws Exception {
         logger.info(profilePhotoRest.toString());
         UserProfile savedUserProfile = this.userProfileService.saveProfilePhoto(profilePhotoRest.getProfilePhoto(), profilePhotoRest.getEmail());
@@ -77,5 +89,17 @@ public class UserProfileController {
         return responseEntity;
     }
 
+    @ExceptionHandler({UserProfileDoesNotExist.class, ProfilePhotoNotReceivedException.class,
+            ProfilePhotoDoesNotExistException.class})
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public Map<String, String> handleUserProfileDoesNotExist(Exception e) {
+        return Map.of("error", e.getMessage());
+    }
+
+    @ExceptionHandler({UserProfileAlreadyExist.class})
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    public Map<String, String> handleUserProfileAlreadyExist(Exception e) {
+        return Map.of("error", e.getMessage());
+    }
 
 }

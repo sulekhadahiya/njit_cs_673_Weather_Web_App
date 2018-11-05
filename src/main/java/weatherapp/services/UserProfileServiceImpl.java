@@ -16,6 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import weatherapp.domain.dbmodel.UserProfile;
+import weatherapp.exception.ProfilePhotoDoesNotExistException;
+import weatherapp.exception.ProfilePhotoNotReceivedException;
+import weatherapp.exception.UserProfileAlreadyExist;
+import weatherapp.exception.UserProfileDoesNotExist;
 import weatherapp.repositories.UserProfileRepository;
 
 import java.io.ByteArrayInputStream;
@@ -47,7 +51,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     public UserProfile createUserProfile(UserProfile userProfile) {
         UserProfile userProfileByEmail = this.getUserProfileByEmail(userProfile.getEmail());
         if (Objects.nonNull(userProfileByEmail)) {
-            throw new RuntimeException("User profile corresponding to this email already exist.");
+            throw new UserProfileAlreadyExist(String.format("User profile corresponding to this %s already exist.", userProfileByEmail.getEmail()));
         }
         UserProfile savedUserProfile = this.userProfileRepository.insert(userProfile);
         return savedUserProfile;
@@ -62,10 +66,11 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public UserProfile updateUserProfileByEmail(String email, UserProfile userProfile) {
         UserProfile userProfileByEmail = this.getUserProfileByEmail(email);
-        userProfile.setId(userProfileByEmail.getId());
-        if (Objects.isNull(userProfile.getId())) {
-            throw new RuntimeException("User profile corresponding to this email does not exist.");
+        if (Objects.isNull(userProfileByEmail)) {
+            throw new UserProfileDoesNotExist(String.format("User Profile does not Exist. Please create a user first using email %s or %s", userProfile.getEmail(), email));
         }
+
+        userProfile.setId(userProfileByEmail.getId());
         //Otherwise the photo will be replaced by some unknown photo, use separate Rest endpoint to update photo.
         userProfile.setProfilePhoto(userProfileByEmail.getProfilePhoto());
         UserProfile updatedUserProfile = this.userProfileRepository.save(userProfile);
@@ -82,7 +87,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     public UserProfile deleteUserProfile(String email) {
         UserProfile userProfile = this.userProfileRepository.findByEmail(email);
         if (Objects.isNull(userProfile)) {
-            throw new RuntimeException("User profile corresponding to this email address does not exist");
+            throw new UserProfileDoesNotExist("User profile corresponding to this email address does not exist");
         } else {
             if (Objects.nonNull(userProfile.getProfilePhoto())) {
                 String profilePhotoKey = userProfile.getProfilePhoto();
@@ -98,16 +103,16 @@ public class UserProfileServiceImpl implements UserProfileService {
     public UserProfile saveProfilePhoto(MultipartFile profilePhoto, String email) throws IOException {
 
         if (Objects.isNull(profilePhoto)) {
-            return null;
+            new ProfilePhotoNotReceivedException("Profile Photo was not uploaded.");
         }
 
         if (Objects.isNull(email) || email.isEmpty() || email.length() == 0) {
-            return null;
+            new IllegalArgumentException("Email not sent.");
         }
 
         UserProfile userProfilebyEmail = this.getUserProfileByEmail(email);
         if (Objects.isNull(userProfilebyEmail)) {
-            return null;
+            throw new UserProfileDoesNotExist("User profile corresponding to this email address does not exist");
         }
 
         byte[] bytes = profilePhoto.getBytes();
@@ -129,6 +134,12 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public byte[] getUserProfilePhotoByEmail(String email) throws IOException {
         UserProfile userProfile = this.getUserProfileByEmail(email);
+        if (Objects.isNull(userProfile)) {
+            throw new UserProfileDoesNotExist("User profile corresponding to this email address does not exist");
+        }
+        if (Objects.isNull(userProfile.getProfilePhoto())) {
+            throw new ProfilePhotoDoesNotExistException(String.format("User Photo for this profile (%s) does not exist.", userProfile.getEmail()));
+        }
         GetObjectRequest userProfilePhotoRequest = new GetObjectRequest(bucketName, userProfile.getProfilePhoto());
         S3Object userProfilePhoto = amazonS3Client.getObject(userProfilePhotoRequest);
         S3ObjectInputStream objectContent = userProfilePhoto.getObjectContent();
