@@ -22,4 +22,6 @@ public interface LocationPhotoRepository extends MongoRepository<LocationPhoto, 
 
     // Execute a full-text search and define sorting dynamically
     List<LocationPhoto> findAllBy(TextCriteria criteria, Sort sort);
+
+    LocationPhoto findBySavedLocationPhotoKeyName(String photoName);
 }

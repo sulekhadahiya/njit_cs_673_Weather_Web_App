@@ -5,6 +5,7 @@
 package weatherapp.domain.dbmodel;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.TextScore;
@@ -36,6 +37,7 @@ public class LocationPhoto {
     @TextIndexed
     private LocationCoordinates locationCoordinates;
     @TextIndexed
+    @Indexed(unique = true)
     private String savedLocationPhotoKeyName;
     private String eTag;
     public LocationPhoto() {

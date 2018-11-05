@@ -79,7 +79,7 @@ public class UserProfileController {
 
     @GetMapping(value = "/get-profile-photo/{email}", consumes = {MediaType.ALL_VALUE},
             produces = {MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    public ResponseEntity<byte[]> getUserPhotoByEmail(@RequestParam(value = "email") String email) throws Exception {
+    public ResponseEntity<byte[]> getUserPhotoByEmail(@PathVariable(value = "email") String email) throws Exception {
         logger.info("Request received for Profile photo for email : " + email);
         byte[] userProfilePhotoBytesByEmail = this.userProfileService.getUserProfilePhotoByEmail(email);
 

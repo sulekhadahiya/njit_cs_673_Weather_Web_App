@@ -5,10 +5,7 @@
 package weatherapp.services;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -105,6 +102,19 @@ public class LocationPhotoServiceImpl implements LocationPhotoService {
             locationPhotoRepository.deleteById(locationPhotoId);
         }
         return locationPhotoOptional.get();
+    }
+
+    @Override
+    public byte[] retrieveLocationPhotoFromS3(String photoName) throws IOException {
+        LocationPhoto savedLocationPhotoKeyName = locationPhotoRepository.findBySavedLocationPhotoKeyName(photoName);
+        if (Objects.isNull(savedLocationPhotoKeyName)) {
+            throw new RuntimeException(String.format("Location photo with this %s does not exist.", photoName));
+        }
+        GetObjectRequest locationPhotoRequest = new GetObjectRequest(bucketName, photoName);
+        S3Object userProfilePhoto = amazonS3Client.getObject(locationPhotoRequest);
+        S3ObjectInputStream objectContent = userProfilePhoto.getObjectContent();
+        byte[] photoBytes = objectContent.readAllBytes();
+        return photoBytes;
     }
 
 }

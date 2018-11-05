@@ -6,13 +6,13 @@ package weatherapp.controllers.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import weatherapp.domain.dbmodel.LocationPhoto;
 import weatherapp.domain.restmodel.LocationPhotoRest;
 import weatherapp.services.LocationPhotoService;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -52,6 +52,17 @@ public class LocationPhotoController {
     public LocationPhoto deleteLocationPhoto(@PathVariable(value = "photoId") String photoId) {
         logger.info(photoId);
         return this.locationPhotoService.deleteLocationPhoto(photoId);
+    }
+
+    @GetMapping(value = "/retrieve-location-photo/{photoName}")
+    public ResponseEntity<byte[]> retrieveLocationPhotoFromS3(@PathVariable String photoName) throws IOException {
+        logger.info("Request received for Location photo having Name : " + photoName);
+        byte[] locationPhotoBytesByEmail = this.locationPhotoService.retrieveLocationPhotoFromS3(photoName);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(locationPhotoBytesByEmail, headers, HttpStatus.OK);
+        return responseEntity;
     }
 
 

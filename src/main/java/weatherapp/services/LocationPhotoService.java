@@ -21,4 +21,6 @@ public interface LocationPhotoService {
 
     LocationPhoto deleteLocationPhoto(String locationPhotoId);
 
+    byte[] retrieveLocationPhotoFromS3(String photoName) throws IOException;
+
 }
