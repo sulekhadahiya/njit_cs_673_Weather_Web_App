@@ -11,21 +11,14 @@ package weatherapp.domain.restmodel;
 
 import weatherapp.domain.dbmodel.Address;
 
-import javax.validation.constraints.NotNull;
-
 public class AddressRest {
 
-    @NotNull
     private String street;
     private String apartment;
-    @NotNull
     private String city;
-    @NotNull
     private String state;
-    @NotNull
     private String zipCode;
     private String phoneNumber;
-    @NotNull
     private String country;
     private LocationCoordinatesRest locationCoordinatesRest = new LocationCoordinatesRest();
 
