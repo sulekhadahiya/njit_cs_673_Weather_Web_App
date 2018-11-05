@@ -83,14 +83,18 @@ public class DarkSkyForecastService implements IForecastService {
         }
 
         if (isDaily) {
-            report.temp = (report.temp_high + report.temp_low) / 2;
+            report.temp = Math.round((report.temp_high + report.temp_low) / 2);
         } else {
             if (data.has("temperature")) {
                 report.temp = (int) Math.round(data.get("temperature").asDouble());
             }
         }
 
-        if (data.has("apparentTemperature")) {
+        if (data.has("apparentTemperatureHigh") && data.has("apparentTemperatureLow")) {
+            double high = data.get("apparentTemperatureHigh").asDouble();
+            double low = data.get("apparentTemperatureLow").asDouble();
+            report.temp_feels_like = (int)Math.round((high + low) / 2);
+        } else {
             report.temp_feels_like = (int)Math.round(data.get("apparentTemperature").asDouble());
         }
 
