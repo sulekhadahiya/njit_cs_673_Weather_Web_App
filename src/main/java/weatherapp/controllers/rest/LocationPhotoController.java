@@ -14,7 +14,6 @@ import weatherapp.domain.restmodel.LocationPhotoRest;
 import weatherapp.services.LocationPhotoService;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author sulekha
@@ -57,20 +56,20 @@ public class LocationPhotoController {
 
 
     void verifyLocationCoOrdinates(LocationPhotoRest locationPhotoRest) {
-        if (Objects.nonNull(locationPhotoRest.getLongitude()) ||
-                !locationPhotoRest.getLongitude().isEmpty()) {
-            if (Objects.isNull(locationPhotoRest.getLatitude()) ||
-                    locationPhotoRest.getLatitude().isEmpty()) {
-                throw new RuntimeException("Longitude is not defined, but Latitude is defined");
-            }
-        }
-
-        if (Objects.nonNull(locationPhotoRest.getLatitude()) ||
-                !locationPhotoRest.getLatitude().isEmpty()) {
-            if (Objects.isNull(locationPhotoRest.getLongitude()) ||
-                    locationPhotoRest.getLongitude().isEmpty()) {
-                throw new RuntimeException("Latitude is not defined, but Longitude is defined");
-            }
-        }
+//        if (Objects.nonNull(locationPhotoRest.getLongitude()) ||
+//                !locationPhotoRest.getLongitude().isEmpty()) {
+//            if (Objects.isNull(locationPhotoRest.getLatitude()) ||
+//                    locationPhotoRest.getLatitude().isEmpty()) {
+//                throw new RuntimeException("Longitude is not defined, but Latitude is defined");
+//            }
+//        }
+//
+//        if (Objects.nonNull(locationPhotoRest.getLatitude()) ||
+//                !locationPhotoRest.getLatitude().isEmpty()) {
+//            if (Objects.isNull(locationPhotoRest.getLongitude()) ||
+//                    locationPhotoRest.getLongitude().isEmpty()) {
+//                throw new RuntimeException("Latitude is not defined, but Longitude is defined");
+//            }
+//        }
     }
 }
