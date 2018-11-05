@@ -94,6 +94,8 @@ public class DarkSkyForecastService implements IForecastService {
             double high = data.get("apparentTemperatureHigh").asDouble();
             double low = data.get("apparentTemperatureLow").asDouble();
             report.temp_feels_like = (int)Math.round((high + low) / 2);
+        } else {
+            report.temp_feels_like = (int)Math.round(data.get("apparentTemperature").asDouble());
         }
 
         if (data.has("dewPoint")) {
