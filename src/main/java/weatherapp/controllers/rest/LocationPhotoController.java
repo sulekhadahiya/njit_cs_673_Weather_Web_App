@@ -48,10 +48,10 @@ public class LocationPhotoController {
         return locationPhotos;
     }
 
-    @DeleteMapping(value = "/delete-location-photo/{photoId}")
-    public LocationPhoto deleteLocationPhoto(@PathVariable(value = "photoId") String photoId) {
-        logger.info(photoId);
-        return this.locationPhotoService.deleteLocationPhoto(photoId);
+    @DeleteMapping(value = "/delete-location-photo/{photoName}")
+    public LocationPhoto deleteLocationPhoto(@PathVariable(value = "photoName") String photoName) {
+        logger.info(photoName);
+        return this.locationPhotoService.deleteLocationPhoto(photoName);
     }
 
     @GetMapping(value = "/retrieve-location-photo/{photoName}", consumes = {MediaType.ALL_VALUE},

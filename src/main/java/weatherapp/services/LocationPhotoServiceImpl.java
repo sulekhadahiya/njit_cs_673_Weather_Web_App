@@ -89,17 +89,17 @@ public class LocationPhotoServiceImpl implements LocationPhotoService {
     }
 
     @Override
-    public LocationPhoto deleteLocationPhoto(String locationPhotoId) {
-        Optional<LocationPhoto> locationPhotoOptional = this.locationPhotoRepository.findById(locationPhotoId);
+    public LocationPhoto deleteLocationPhoto(String photoName) {
+        Optional<LocationPhoto> locationPhotoOptional = Optional.ofNullable(this.locationPhotoRepository.findBySavedLocationPhotoKeyName(photoName));
 
         if (locationPhotoOptional.isEmpty()) {
-            throw new RuntimeException("User profile corresponding to this email address does not exist");
+            throw new RuntimeException("This location photo does not exist.");
         } else {
             LocationPhoto locationPhoto = locationPhotoOptional.get();
             String savedLocationPhotoKeyName = locationPhoto.getSavedLocationPhotoKeyName();
             DeleteObjectRequest deleteRequest = new DeleteObjectRequest(bucketName, savedLocationPhotoKeyName);
             amazonS3Client.deleteObject(deleteRequest);
-            locationPhotoRepository.deleteById(locationPhotoId);
+            locationPhotoRepository.deleteById(locationPhoto.getId());
         }
         return locationPhotoOptional.get();
     }
