@@ -54,7 +54,8 @@ public class LocationPhotoController {
         return this.locationPhotoService.deleteLocationPhoto(photoId);
     }
 
-    @GetMapping(value = "/retrieve-location-photo/{photoName}")
+    @GetMapping(value = "/retrieve-location-photo/{photoName}", consumes = {MediaType.ALL_VALUE},
+            produces = {MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public ResponseEntity<byte[]> retrieveLocationPhotoFromS3(@PathVariable String photoName) throws IOException {
         logger.info("Request received for Location photo having Name : " + photoName);
         byte[] locationPhotoBytesByEmail = this.locationPhotoService.retrieveLocationPhotoFromS3(photoName);
