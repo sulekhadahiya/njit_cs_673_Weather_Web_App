@@ -61,8 +61,8 @@ public class UserProfileController {
         return UserProfileRest.userprofileToUserProfileRest(savedUserProfile);
     }
 
-    @DeleteMapping(value = "/remove-user-profile")
-    public UserProfileRest deleteUserProfile(String email) {
+    @DeleteMapping(value = "/remove-user-profile/{email}")
+    public UserProfileRest deleteUserProfile(@PathVariable(value = "email") String email) {
         UserProfile deletedUserProfile = this.userProfileService.deleteUserProfile(email);
         UserProfileRest userProfileRest = UserProfileRest.userprofileToUserProfileRest(deletedUserProfile);
         return userProfileRest;
