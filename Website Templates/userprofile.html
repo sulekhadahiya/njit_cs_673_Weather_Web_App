@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        User Profile
+    </title>
+    <link href="userprofilestyle.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="row">
+            <div>
+                <div class="logo">
+                    <img src="logo.png">
+					<img id = "pa" src="pa.png">
+					</br></br></br></br></br>
+                </div>
+            </div>
+        </div>
+        <div>
+            <ul class="main-nav2">
+                <li><a href="index.html"> LOGOUT </a> </li>
+            </ul>
+        </div>       
+			<script>
+			$(document).ready(function() {
+				var hey = JSON.parse(localStorage.getItem('myObject'));
+				
+                var row1=document.getElementById("frow");
+                var row2=document.getElementById("srow");
+                var row3=document.getElementById("trow");
+                var row4=document.getElementById("forow");                   
+                var row5=document.getElementById("fihrow");                    
+
+			          
+							var myJSON = JSON.stringify(hey);
+							var cool= myJSON.split(",");
+							
+							
+							<!-- find name -->
+							var namef= myJSON.indexOf("name");
+							var endnamef=namef;
+							while(myJSON.charAt(endnamef)!=="}"){
+								endnamef++;
+							}
+							var namefull = myJSON.slice(namef,endnamef);
+							console.log(namefull);
+							
+							<!-- find email -->
+							var emailf= myJSON.indexOf("email");
+							var endemail=myJSON.indexOf('","addresses');
+							
+							var emailfull = myJSON.slice(emailf,endemail);
+							console.log(emailfull);
+							
+							<!-- find cities -->
+							var cityf= myJSON.indexOf("favouriteCities");
+							var endcity = cityf;
+							while(myJSON.charAt(endcity)!=="]"){
+								endcity++;
+							}
+							var cityfull = myJSON.slice(cityf,endcity);
+							console.log(cityfull);
+							
+							<!-- find photo urls stored in workaddress.street-->
+							var photof=myJSON.indexOf("WorkAddress");
+							var endphoto = photof;
+							while(myJSON.charAt(endphoto)!=="}"){
+								endphoto++;
+							}
+							var photofull = myJSON.slice(photof,endphoto);
+							console.log(photofull);
+							
+							
+							<!-- clean up strings-->
+							
+							var namstr = namefull.replace('name":{"firstName":"','');
+							var namstr2=namstr.replace('","middleName":null,"lastName":null','');
+							console.log(namstr2);
+							
+							var emlstr = emailfull.replace('email":"','');
+							console.log(emlstr);
+							
+							var citstr = cityfull.replace('favouriteCities":["','');
+							var citstr2= citstr.replace('"','');
+							console.log(citstr2);
+							
+							var photstr = photofull.replace('WorkAddress":{"street":"','');
+							var photstr2 = photstr.replace('{"longitude":null,"latitude":null','');
+							var photstr3= photstr2.replace('","apartment":null,"city":null,"state":null,"zipCode":null,"phoneNumber":null,"country":null,"locationCoordinatesRest":','');
+							console.log(photstr2);	
+							
+							
+		                    var pwd_td = document.createElement("td");
+		                    pwd_td.innerHTML = cool[2];
+		                    var full_name_td = document.createElement("td");
+		                    full_name_td.innerHTML = namstr2;
+		                    var email_td = document.createElement("td");
+		                    email_td.innerHTML = emlstr;
+		                    var fav_city_td = document.createElement("td");
+		                    fav_city_td.innerHTML= citstr2;
+		                    var photo_url_td = document.createElement("td");
+		                    photo_url_td.innerHTML=photstr3;
+		 
+		                    row1.appendChild(full_name_td);
+		                    row2.appendChild(email_td);
+		                  //  row3.appendChild(pwd_td);
+		                    row4.appendChild(fav_city_td);
+		                    row5.appendChild(photo_url_td);
+			});
+        </script> 
+		<div>
+			<table id="user_info">
+				<thead>
+					<tr id="frow">
+						<td id="user_name">Name</td>
+					</tr>
+					<tr id="srow">
+						<td id="user_email">Email</td>
+					</tr>	
+					<!--<tr id="trow">
+						<td id="user_pwd">Password</td>
+					</tr>--> 				
+				</thead>
+				<tbody>
+					<tr id="forow">
+						<td>Favorite City</td>
+					</tr>
+					<tr id="fihrow">
+						<td>Photo URLs</td>
+					</tr>
+				</tbody>
+		
+			</table>
+		</div>
+            <script> <!-- create table to show fav city weather info -->
+			$(document).ready(function() {
+                var table1 = document.getElementById("table1");
+                var n_tr = document.createElement("tr");
+                var name_td = document.createElement("th");
+                name_td.innerHTML = "Name";
+                var temp_td = document.createElement("th");
+                temp_td.innerHTML = "Temp";
+                var temp_hum_td = document.createElement("th");
+                temp_hum_td.innerHTML = "Humidity";
+                var temp_ws_td = document.createElement("th");
+                temp_ws_td.innerHTML = "Wind speed";
+                var temp_feelslike_td = document.createElement("th");
+                temp_feelslike_td.innerHTML = "Temp Feels Like";
+				 var temp_summary_td = document.createElement("th");
+                temp_summary_td.innerHTML = "Summary";
+                n_tr.appendChild(name_td);
+                n_tr.appendChild(temp_td);
+                n_tr.appendChild(temp_hum_td);
+                n_tr.appendChild(temp_ws_td);
+                n_tr.appendChild(temp_feelslike_td);
+				n_tr.appendChild(temp_summary_td);
+                table1.appendChild(n_tr);
+                
+                <!-- find and clean data for cities-->
+				var hey = JSON.parse(localStorage.getItem('myObject'));
+				var myJSON = JSON.stringify(hey);
+				var cityf= myJSON.indexOf("favouriteCities");
+				var endcity = cityf;
+				while(myJSON.charAt(endcity)!=="]"){
+					endcity++;
+				}
+				var cityfull = myJSON.slice(cityf,endcity);
+				var citstr = cityfull.replace('favouriteCities":["','');
+				var citstr2= citstr.replace('"','');
+				
+				var listOCity= citstr2.split(', ');
+				console.log(listOCity);
+               	
+                var i;
+               for(i=0; i <listOCity.length; i++){
+                    var y = listOCity[i];
+                    var x = y.trim();
+                    var url = "http://weather-api.sulekha.rocks:8080/now/" + x;
+                    url = url.trim();
+                    $.get(url).then(function (response) {
+                        var table1 = document.getElementById("table1");
+                        var n_tr = document.createElement("tr");
+                        var name_td = document.createElement("td");
+                        name_td.innerHTML = response.report.name;
+                        var temp_td = document.createElement("td");
+                        temp_td.innerHTML = response.report.temp;
+                        var temp_hum_td = document.createElement("td");
+                        temp_hum_td.innerHTML = response.report.humidity;
+                        var temp_ws_td = document.createElement("td");
+                        temp_ws_td.innerHTML = response.report.wind_speed;
+                        var temp_feelslike_td = document.createElement("td");
+                        temp_feelslike_td.innerHTML = response.report.temp_feels_like;
+    					var temp_summary_td = document.createElement("td");
+                        temp_summary_td.innerHTML = response.report.summary;
+                        n_tr.appendChild(name_td);
+                        n_tr.appendChild(temp_td);
+                        n_tr.appendChild(temp_hum_td);
+                        n_tr.appendChild(temp_ws_td);
+                        n_tr.appendChild(temp_feelslike_td);
+    					n_tr.appendChild(temp_summary_td);
+                        table1.appendChild(n_tr);
+                    });
+                }
+
+            
+			});
+        </script>
+        
+        <script> <!-- display uploaded image urls-->
+		$(document).ready(function() {
+
+		var hey = JSON.parse(localStorage.getItem('myObject'));
+		var myJSON = JSON.stringify(hey);
+		var photof=myJSON.indexOf("WorkAddress");
+		var endphoto = photof;
+		while(myJSON.charAt(endphoto)!=="}"){
+			endphoto++;
+		}
+		var photofull = myJSON.slice(photof,endphoto);
+		var photstr = photofull.replace('WorkAddress":{"street":"','');
+		var photstr2 = photstr.replace('{"longitude":null,"latitude":null','');
+		var photstr3= photstr2.replace('","apartment":null,"city":null,"state":null,"zipCode":null,"phoneNumber":null,"country":null,"locationCoordinatesRest":','');
+		
+		var piclist = photstr3.split(',');
+		
+		var i;
+		for(i=0; i < piclist.length; i++){
+			var oHer = document.createElement("img");
+			oHer.src = piclist[i];
+			console.log("made it")
+			//oHer.height='20';
+			//oHer.height = '100px';
+			//oHer.setAttribute('width', '5');
+			document.getElementById('container').appendChild(oHer);
+		}
+		
+		});
+
+        </script>
+        <table id="table1"></table>
+    </header>
+    	<div id="container"></div>
+    			<p class="message">Want to Update Profile Info, Add Favourite Cities, or Upload Photos? <a href="updateprof.html">Click Here</a> </p>	
+</body>
+</html>

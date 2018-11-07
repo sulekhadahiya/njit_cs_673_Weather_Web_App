@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>
+            Weather Website
+        </title>
+        <link href="classicstyle.css" rel="stylesheet" type="text/css">
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="row">
+                <div>
+                    <div class="logo">
+                    <img src="logo.png">
+                    </div>
+                </div>
+				<!--<div class="searchbar">
+                <input type="text" placeholder="Search Here" id="locationbar">-->
+                <button id="locationbutton" onclick="myFunction()">Classic Map</button>
+                </div>
+            </div>
+            <div>
+            <ul class="main-nav1">
+                
+            </ul>
+            <ul class="main-nav2">
+                <li class="active"><a href="index.html"> HOME </a></li>
+			</ul>
+            </div></br></br>
+               <script>
+            function myFunction() {
+                var url = "http://weather-api.sulekha.rocks:8080/temp_maps";
+                url = url.trim();
+                $.get(url).then(function (response) {
+					document.getElementById("classic").src = response.urls[7];
+				});
+			}
+        </script>
+        <div>
+            <img id="classic" />
+        </div>
+        </header>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>
+            Weather Website
+        </title>
+        <link href="radarstyle.css" rel="stylesheet" type="text/css">
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="row">
+                <div>
+                    <div class="logo">
+                    <img src="logo.png">
+                    </div>
+                </div>
+                <div class="searchbar">
+                <input type="text" placeholder="Search Here" id="locationbar">
+                <button id="locationbutton" onclick="myFunction()"> Search</button>
+                </div>
+            </div>
+            <div>
+            <ul class="main-nav1">
+                
+            </ul>
+            <ul class="main-nav2">
+                <li class="active"><a href="index.html"> HOME </a></li>
+			</ul>
+            </div>
+               <script>
+            function myFunction() {
+				var x = document.getElementById("locationbar").value;
+				var y = "/animated";
+                var url = "http://weather-api.sulekha.rocks:8080/radar/" + x +y;
+                url = url.trim();
+                $.get(url).then(function (response) {
+                    document.getElementById("radar").src = response.url;
+                });
+            }
+        </script>
+        <div>
+            <img id="radar" />
+        </div>
+        </header>
+    </body>
+</html>
