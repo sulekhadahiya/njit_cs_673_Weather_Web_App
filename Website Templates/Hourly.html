@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>
-            10-Day Forecast
-        </title>
-        <link href="FiveDayStyle.css" rel="stylesheet" type="text/css">
-		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    </head>
-    <body>
-      <header>
-          <div class="row">
-              <div>
-                  <div class="logo">
-                  <img src="logo.png">
-                  </div>
-              </div>
-              <div class="searchbar">
+<head>
+    <title>
+        Hourly Forecast
+    </title>
+    <link href="HourlyStyle.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <header>
+        <div class="row">
+            <div>
+                <div class="logo">
+                    <img src="logo.png">
+                </div>
+            </div>
+            <div class="searchbar">
                 <input type="text" placeholder="Search Here" id="locationbar">
                 <button id="locationbutton" onclick="myFunction()"> Search</button>
-                </div>
-          </div>
-          <div>
-          <ul class="main-nav1">
-              <li class="active"><a href="index.html"> HOME </a></li>
-              <li><a href="HOURLY.html"> HOURLY </a></li>
-              <li><a href="FiveDay.html"> 5 DAY </a></li>
-              <li><a href="TenDay.html"> 10 DAY </a></li>
-          </ul>
-          <ul class="main-nav2">
-				<li><a href="registration.html"> LOGIN </a> </li>
+            </div>
+        </div>
+        <div>
+            <ul class="main-nav1">
+                <li class="active"><a href="index.html"> HOME </a></li>
+                <li><a href="HOURLY.html"> HOURLY </a></li>
+                <li><a href="FiveDay.html"> 5 DAY </a></li>
+                <li><a href="TenDay.html"> 10 DAY </a></li>
+            </ul>
+             <ul class="main-nav2">
+                <li><a href="registration.html"> LOGIN </a> </li>
 				<li><a href="radar.html"> RADAR </a> </li>
 				<li><a href="classic.html"> CLASSIC </a> </li>
-          </ul>
-          </div>
-              <script>
-var temperatures = {};
+			</ul>
+        </div>
+        <p id="LocWD"></p>
+        <script>
+            var temperatures = {};
             var first = true;
             function addHeader() {
                 var table1 = document.getElementById("table1");
@@ -70,7 +71,8 @@ var temperatures = {};
                 var table1 = document.getElementById("table1");
                 var n_tr = document.createElement("tr");
                 var time_td = document.createElement("td");
-                time_td.innerHTML = report.timestamp;
+                var timestamp = new Date(report.timestamp).toTimeString().split(" ")[0].split(":");
+                time_td.innerHTML = timestamp[0] + ":" + timestamp[1];
                 var name_td = document.createElement("td");
                 name_td.innerHTML = x;
                 var temp_td = document.createElement("td");
@@ -98,7 +100,7 @@ var temperatures = {};
             }
             function myFunction() {
                 var x = document.getElementById("locationbar").value;
-                var url = "http://weather-api.sulekha.rocks:8080/10day/" + x;
+                var url = "http://weather-api.sulekha.rocks:8080/hourly/" + x;
                 url = url.trim();
                 $.get(url).then(function (response) {
                     // delete existing rows
@@ -107,7 +109,7 @@ var temperatures = {};
                     addHeader();
                     var new_response = { "reports": {} }
                     var time = new Date();
-                    time.setHours(time.getHours() + 236);
+                    time.setHours(time.getHours() + 12);
                     for (var i = 0; i < response.reports.length; i++) {
                         var date = new Date(response.reports[i].timestamp);
                         if (date < time) {
@@ -117,9 +119,8 @@ var temperatures = {};
                 }); 
             }
         </script>
-
         <table id="table1">
         </table>
-      </header>
-    </body>
+    </header>
+</body>
 </html>
