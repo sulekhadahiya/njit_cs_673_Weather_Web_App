@@ -35,8 +35,8 @@ $(document).ready(function() {
             					}
             				}	
                 		},
-                		favouriteCities: [null],
-                		profilePhoto: $("#profilepicture").val(),
+                		//favouriteCities: [null],
+                		//profilePhoto: $("#profilepicture").val(),
                 };
 			
 			$.ajax({
