@@ -23,6 +23,7 @@ public class LocationPhotoRest {
     private String country;
     private String longitude;
     private String latitude;
+    private String email;
 
     public LocationPhotoRest() {
     }
@@ -107,6 +108,13 @@ public class LocationPhotoRest {
         this.country = country;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public LocationPhoto convertToLocationPhoto() {
         LocationPhoto locationPhoto = new LocationPhoto();
@@ -118,6 +126,7 @@ public class LocationPhotoRest {
         locationPhoto.setStreet(this.street);
         locationPhoto.setLocationName(this.locationName);
         locationPhoto.setZipCode(this.zipCode);
+        locationPhoto.setEmail(this.email);
         return locationPhoto;
     }
 
@@ -134,6 +143,7 @@ public class LocationPhotoRest {
                 ", country='" + country + '\'' +
                 ", longitude='" + longitude + '\'' +
                 ", latitude='" + latitude + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

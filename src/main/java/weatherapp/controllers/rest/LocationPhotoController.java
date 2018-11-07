@@ -41,14 +41,14 @@ public class LocationPhotoController {
     }
 
 
-    @GetMapping(value = "/get-location-photos")
+    @GetMapping(value = "/get-location-photos", consumes = MediaType.ALL_VALUE)
     public List<LocationPhoto> getLocationPhoto(@RequestParam("searchquery") String searchQuery) {
         logger.info(searchQuery);
         List<LocationPhoto> locationPhotos = this.locationPhotoService.getLocationPhoto(searchQuery);
         return locationPhotos;
     }
 
-    @DeleteMapping(value = "/delete-location-photo/{photoName}")
+    @DeleteMapping(value = "/delete-location-photo/{photoName}", consumes = MediaType.ALL_VALUE)
     public LocationPhoto deleteLocationPhoto(@PathVariable(value = "photoName") String photoName) {
         logger.info(photoName);
         return this.locationPhotoService.deleteLocationPhoto(photoName);

@@ -40,6 +40,8 @@ public class LocationPhoto {
     @Indexed(unique = true)
     private String savedLocationPhotoKeyName;
     private String eTag;
+    @Indexed
+    private String email;
     public LocationPhoto() {
     }
 
@@ -139,10 +141,20 @@ public class LocationPhoto {
         this.score = score;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "LocationPhoto{" +
-                "locationName='" + locationName + '\'' +
+                "score=" + score +
+                ", id='" + id + '\'' +
+                ", locationName='" + locationName + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
@@ -152,6 +164,7 @@ public class LocationPhoto {
                 ", locationCoordinates=" + locationCoordinates +
                 ", savedLocationPhotoKeyName='" + savedLocationPhotoKeyName + '\'' +
                 ", eTag='" + eTag + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

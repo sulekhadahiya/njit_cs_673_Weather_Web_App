@@ -45,7 +45,7 @@ public class UserProfileController {
     }
 
 
-    @GetMapping(value = "/get-user-profile/{email}/")
+    @GetMapping(value = "/get-user-profile/{email}/", consumes = MediaType.ALL_VALUE)
     public UserProfileRest getUserProfile(@PathVariable(value = "email") String email) {
         UserProfile userProfile = this.userProfileService.getUserProfileByEmail(email);
         if (Objects.isNull(userProfile)) {
@@ -61,7 +61,7 @@ public class UserProfileController {
         return UserProfileRest.userprofileToUserProfileRest(savedUserProfile);
     }
 
-    @DeleteMapping(value = "/remove-user-profile/{email}")
+    @DeleteMapping(value = "/remove-user-profile/{email}", consumes = MediaType.ALL_VALUE)
     public UserProfileRest deleteUserProfile(@PathVariable(value = "email") String email) {
         UserProfile deletedUserProfile = this.userProfileService.deleteUserProfile(email);
         UserProfileRest userProfileRest = UserProfileRest.userprofileToUserProfileRest(deletedUserProfile);
