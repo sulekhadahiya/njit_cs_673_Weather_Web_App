@@ -8,7 +8,7 @@ package weatherapp.exception;
  * @author sulekha
  * njit_cs_673_Weather_Web_App, 2018
  */
-public class UserProfileAlreadyExist extends RuntimeException {
+public class LocationPhotoNotSentException extends RuntimeException {
     /**
      * Constructs a new runtime exception with the specified detail message.
      * The cause is not initialized, and may subsequently be initialized by a
@@ -17,7 +17,7 @@ public class UserProfileAlreadyExist extends RuntimeException {
      * @param message the detail message. The detail message is saved for
      *                later retrieval by the {@link #getMessage()} method.
      */
-    public UserProfileAlreadyExist(String message) {
+    public LocationPhotoNotSentException(String message) {
         super(message);
     }
 }

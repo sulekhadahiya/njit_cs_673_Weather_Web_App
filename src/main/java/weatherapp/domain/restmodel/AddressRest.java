@@ -9,8 +9,10 @@ package weatherapp.domain.restmodel;
  * njit_cs_673_Weather_Web_App, 2018
  */
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import weatherapp.domain.dbmodel.Address;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddressRest {
 
     private String street;

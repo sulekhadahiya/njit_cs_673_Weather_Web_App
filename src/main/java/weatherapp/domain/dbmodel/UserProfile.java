@@ -28,6 +28,7 @@ public class UserProfile {
     private Map<String, Address> addresses = new HashMap<>();
     private List<String> favouriteCities = new ArrayList<>();
     private String profilePhoto;
+    private boolean markSafe;
 
     public UserProfile() {
 
@@ -61,6 +62,14 @@ public class UserProfile {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isMarkSafe() {
+        return markSafe;
+    }
+
+    public void setMarkSafe(boolean markSafe) {
+        this.markSafe = markSafe;
     }
 
     public Map<String, Address> getAddresses() {
@@ -135,6 +144,7 @@ public class UserProfile {
                 ", addresses=" + addresses +
                 ", favouriteCities=" + favouriteCities +
                 ", profilePhoto='" + profilePhoto + '\'' +
+                ", markSafe=" + markSafe +
                 '}';
     }
 }

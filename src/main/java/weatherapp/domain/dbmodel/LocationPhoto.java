@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.TextScore;
 
+import java.time.ZonedDateTime;
+
 /**
  * @author sulekha
  * njit_cs_673_Weather_Web_App, 2018
@@ -37,11 +39,16 @@ public class LocationPhoto {
     @TextIndexed
     private LocationCoordinates locationCoordinates;
     @TextIndexed
-    @Indexed(unique = true)
+    @Indexed(sparse = true)
     private String savedLocationPhotoKeyName;
     private String eTag;
     @Indexed
     private String email;
+    @TextIndexed
+    private String url;
+
+    private ZonedDateTime creationTime;
+
     public LocationPhoto() {
     }
 
@@ -145,8 +152,24 @@ public class LocationPhoto {
         return email;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public ZonedDateTime getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(ZonedDateTime creationTime) {
+        this.creationTime = creationTime;
     }
 
     @Override
@@ -165,6 +188,8 @@ public class LocationPhoto {
                 ", savedLocationPhotoKeyName='" + savedLocationPhotoKeyName + '\'' +
                 ", eTag='" + eTag + '\'' +
                 ", email='" + email + '\'' +
+                ", URL='" + url + '\'' +
+                ", creationTime='" + creationTime + '\'' +
                 '}';
     }
 }

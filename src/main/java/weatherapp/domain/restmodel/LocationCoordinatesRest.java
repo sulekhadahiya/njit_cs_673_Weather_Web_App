@@ -4,12 +4,14 @@
 
 package weatherapp.domain.restmodel;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import weatherapp.domain.dbmodel.LocationCoordinates;
 
 /**
  * @author sulekha
  * njit_cs_673_Weather_Web_App, 2018
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class LocationCoordinatesRest {
     private String longitude;
     private String latitude;

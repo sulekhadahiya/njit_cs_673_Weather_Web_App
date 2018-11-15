@@ -18,8 +18,8 @@ import weatherapp.domain.restmodel.ProfilePhotoRest;
 import weatherapp.domain.restmodel.UserProfileRest;
 import weatherapp.exception.ProfilePhotoDoesNotExistException;
 import weatherapp.exception.ProfilePhotoNotReceivedException;
-import weatherapp.exception.UserProfileAlreadyExist;
-import weatherapp.exception.UserProfileDoesNotExist;
+import weatherapp.exception.UserProfileAlreadyExistException;
+import weatherapp.exception.UserProfileDoesNotExistException;
 import weatherapp.services.UserProfileService;
 
 import java.util.Map;
@@ -49,7 +49,7 @@ public class UserProfileController {
     public UserProfileRest getUserProfile(@PathVariable(value = "email") String email) {
         UserProfile userProfile = this.userProfileService.getUserProfileByEmail(email);
         if (Objects.isNull(userProfile)) {
-            throw new UserProfileDoesNotExist("User Profile does not Exist.");
+            throw new UserProfileDoesNotExistException("User Profile does not Exist.");
         }
         return UserProfileRest.userprofileToUserProfileRest(userProfile);
     }
@@ -59,6 +59,18 @@ public class UserProfileController {
         UserProfile userProfile = userProfileRest.userProfileRestToUserProfile();
         UserProfile savedUserProfile = this.userProfileService.updateUserProfileByEmail(existingEmail, userProfile);
         return UserProfileRest.userprofileToUserProfileRest(savedUserProfile);
+    }
+
+    @PatchMapping(value = "/update-mark-safe/{existingEmail}/{markSafe}", consumes = MediaType.ALL_VALUE)
+    public UserProfileRest updateMarkSafe(@PathVariable(value = "existingEmail") String existingEmail, @PathVariable(value = "markSafe") boolean markSafe) {
+        UserProfile savedUserProfile = this.userProfileService.updateMarkSafeInUserProfile(existingEmail, markSafe);
+        return UserProfileRest.userprofileToUserProfileRest(savedUserProfile);
+    }
+
+    @GetMapping(value = "/get-mark-safe/{existingEmail}/", consumes = MediaType.ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+    public String getMarkSafeByEmail(@PathVariable(value = "existingEmail") String existingEmail) {
+        UserProfile userProfile = this.userProfileService.getUserProfileByEmail(existingEmail);
+        return Boolean.valueOf(userProfile.isMarkSafe()).toString();
     }
 
     @DeleteMapping(value = "/remove-user-profile/{email}", consumes = MediaType.ALL_VALUE)
@@ -89,14 +101,14 @@ public class UserProfileController {
         return responseEntity;
     }
 
-    @ExceptionHandler({UserProfileDoesNotExist.class, ProfilePhotoNotReceivedException.class,
+    @ExceptionHandler({UserProfileDoesNotExistException.class, ProfilePhotoNotReceivedException.class,
             ProfilePhotoDoesNotExistException.class})
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public Map<String, String> handleUserProfileDoesNotExist(Exception e) {
         return Map.of("error", e.getMessage());
     }
 
-    @ExceptionHandler({UserProfileAlreadyExist.class})
+    @ExceptionHandler({UserProfileAlreadyExistException.class})
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public Map<String, String> handleUserProfileAlreadyExist(Exception e) {
         return Map.of("error", e.getMessage());

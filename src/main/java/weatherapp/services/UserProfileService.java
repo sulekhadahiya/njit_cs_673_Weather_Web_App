@@ -36,5 +36,5 @@ public interface UserProfileService {
 
     byte[] getUserProfilePhotoByEmail(String email) throws Exception;
 
-
+    UserProfile updateMarkSafeInUserProfile(String existingEmail, boolean markSafe);
 }

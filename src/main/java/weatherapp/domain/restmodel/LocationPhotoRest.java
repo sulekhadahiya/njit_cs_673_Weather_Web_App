@@ -4,14 +4,19 @@
 
 package weatherapp.domain.restmodel;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.web.multipart.MultipartFile;
 import weatherapp.domain.dbmodel.LocationCoordinates;
 import weatherapp.domain.dbmodel.LocationPhoto;
+
+import java.time.ZonedDateTime;
+import java.util.Objects;
 
 /**
  * @author sulekha
  * njit_cs_673_Weather_Web_App, 2018
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class LocationPhotoRest {
     private MultipartFile locationPhoto;
     private String locationName;
@@ -24,6 +29,8 @@ public class LocationPhotoRest {
     private String longitude;
     private String latitude;
     private String email;
+    private String url;
+    private ZonedDateTime creationTime;
 
     public LocationPhotoRest() {
     }
@@ -116,6 +123,39 @@ public class LocationPhotoRest {
         this.email = email;
     }
 
+    public static LocationPhotoRest convertLocationPhotoToLocationPhotoRest(LocationPhoto locationPhoto) {
+        LocationPhotoRest locationPhotoRest = new LocationPhotoRest();
+        locationPhotoRest.setCity(locationPhoto.getCity());
+        locationPhotoRest.setCountry(locationPhoto.getCountry());
+        locationPhotoRest.setLongitude(locationPhoto.getLocationCoordinates().getLongitude());
+        locationPhotoRest.setLatitude(locationPhoto.getLocationCoordinates().getLatitude());
+        locationPhotoRest.setPhoneNumber(locationPhoto.getPhoneNumber());
+        locationPhotoRest.setState(locationPhoto.getState());
+        locationPhotoRest.setStreet(locationPhoto.getStreet());
+        locationPhotoRest.setLocationName(locationPhoto.getLocationName());
+        locationPhotoRest.setZipCode(locationPhoto.getZipCode());
+        locationPhotoRest.setEmail(locationPhoto.getEmail());
+        locationPhotoRest.setUrl(locationPhoto.getUrl());
+//        locationPhotoRest.setCreationTime(locationPhoto.getCreationTime());
+        return locationPhotoRest;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public ZonedDateTime getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(ZonedDateTime creationTime) {
+        this.creationTime = creationTime;
+    }
+
     public LocationPhoto convertToLocationPhoto() {
         LocationPhoto locationPhoto = new LocationPhoto();
         locationPhoto.setCity(this.getCity());
@@ -127,13 +167,20 @@ public class LocationPhotoRest {
         locationPhoto.setLocationName(this.locationName);
         locationPhoto.setZipCode(this.zipCode);
         locationPhoto.setEmail(this.email);
+        locationPhoto.setUrl(this.url);
+//        locationPhoto.setCreationTime(this.creationTime);
         return locationPhoto;
     }
 
     @Override
     public String toString() {
+        String originalFilename = null;
+
+        if (Objects.nonNull(locationPhoto)) {
+            originalFilename = locationPhoto.getOriginalFilename();
+        }
         return "LocationPhotoRest{" +
-                "locationPhoto=" + locationPhoto +
+                "locationPhoto=" + originalFilename +
                 ", locationName='" + locationName + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
@@ -144,6 +191,8 @@ public class LocationPhotoRest {
                 ", longitude='" + longitude + '\'' +
                 ", latitude='" + latitude + '\'' +
                 ", email='" + email + '\'' +
+                ", url='" + url + '\'' +
+                ", creationTime='" + creationTime + '\'' +
                 '}';
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 import weatherapp.domain.dbmodel.LocationPhoto;
 import weatherapp.domain.restmodel.LocationPhotoRest;
+import weatherapp.exception.LocationPhotoNotSentException;
+import weatherapp.exception.LocationPhotoUrlNotSentException;
 import weatherapp.repositories.LocationPhotoRepository;
 
 import java.io.ByteArrayInputStream;
@@ -47,34 +49,59 @@ public class LocationPhotoServiceImpl implements LocationPhotoService {
             return null;
         }
 
-        if (Objects.isNull(locationPhotoRest.getLocationPhoto()) || locationPhotoRest.getLocationPhoto().isEmpty()) {
-            return null;
+        if (Objects.isNull(locationPhotoRest.getLocationPhoto()) && Objects.isNull(locationPhotoRest.getUrl())) {
+            if (Objects.isNull(locationPhotoRest.getLocationPhoto())) {
+                if (Objects.isNull(locationPhotoRest.getLocationPhoto())) {
+                    throw new LocationPhotoNotSentException("Location Photo image data was not sent.");
+                }
+            }
+
+            if (Objects.isNull(locationPhotoRest.getUrl())) {
+                if (Objects.isNull(locationPhotoRest.getUrl())) {
+                    throw new LocationPhotoUrlNotSentException("URL of the location photo not sent.");
+                }
+            }
         }
 
-        byte[] bytes = locationPhotoRest.getLocationPhoto().getBytes();
-        String key = String.format("%s_%s", UUID.nameUUIDFromBytes(bytes).toString(), locationPhotoRest.getLocationPhoto().getOriginalFilename());
-
-        Map<String, String> locationPhotoUserMetaData = new HashMap<>();
-        locationPhotoUserMetaData.put(LOCATION_PHOTO_KEY_NAME, key);
-
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(bytes.length);
-        objectMetadata.setUserMetadata(locationPhotoUserMetaData);
-
-        PutObjectRequest request = new PutObjectRequest(bucketName,
-                key, new ByteArrayInputStream(bytes), objectMetadata);
-        PutObjectResult putObjectResult = amazonS3Client.putObject(request);
-        if (Objects.nonNull(putObjectResult) && Objects.nonNull(putObjectResult.getETag())) {
-            //save the key with other details in mongodb
-            LocationPhoto locationPhoto = locationPhotoRest.convertToLocationPhoto();
-            locationPhoto.setId(key);
-            locationPhoto.setSavedLocationPhotoKeyName(key);
-            locationPhoto.seteTag(putObjectResult.getETag());
-            LocationPhoto savedLocationPhotoDocument = locationPhotoRepository.save(locationPhoto);
-            return savedLocationPhotoDocument;
-        } else {
-            return null;
+        if (Objects.nonNull(locationPhotoRest.getUrl())) {
+            if (locationPhotoRest.getUrl().isEmpty()) {
+                throw new LocationPhotoUrlNotSentException("URL of the location photo not sent.");
+            }
         }
+
+        LocationPhoto locationPhoto = locationPhotoRest.convertToLocationPhoto();
+
+
+        if (Objects.nonNull(locationPhotoRest.getLocationPhoto())) {
+            if (locationPhotoRest.getLocationPhoto().isEmpty()) {
+                throw new LocationPhotoNotSentException("Location Photo image data was not sent.");
+            }
+
+            byte[] bytes = locationPhotoRest.getLocationPhoto().getBytes();
+            String key = String.format("%s_%s", UUID.nameUUIDFromBytes(bytes).toString(), locationPhotoRest.getLocationPhoto().getOriginalFilename());
+
+            Map<String, String> locationPhotoUserMetaData = new HashMap<>();
+            locationPhotoUserMetaData.put(LOCATION_PHOTO_KEY_NAME, key);
+
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentLength(bytes.length);
+            objectMetadata.setUserMetadata(locationPhotoUserMetaData);
+
+            PutObjectRequest request = new PutObjectRequest(bucketName,
+                    key, new ByteArrayInputStream(bytes), objectMetadata);
+            PutObjectResult putObjectResult = amazonS3Client.putObject(request);
+            if (Objects.nonNull(putObjectResult) && Objects.nonNull(putObjectResult.getETag())) {
+                //save the key with other details in mongodb
+                locationPhoto.setId(key);
+                locationPhoto.setSavedLocationPhotoKeyName(key);
+                locationPhoto.seteTag(putObjectResult.getETag());
+            }
+        }
+        if (Objects.isNull(locationPhoto.getId())) {
+            locationPhoto.setId(UUID.randomUUID().toString());
+        }
+        LocationPhoto savedLocationPhotoDocument = locationPhotoRepository.save(locationPhoto);
+        return savedLocationPhotoDocument;
     }
 
     public List<LocationPhoto> getLocationPhoto(String searchKey) {

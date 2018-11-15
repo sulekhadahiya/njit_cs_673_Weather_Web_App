@@ -10,10 +10,15 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import weatherapp.domain.dbmodel.LocationPhoto;
 import weatherapp.domain.restmodel.LocationPhotoRest;
+import weatherapp.exception.LocationPhotoNotSentException;
+import weatherapp.exception.LocationPhotoUrlNotSentException;
 import weatherapp.services.LocationPhotoService;
 
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author sulekha
@@ -33,19 +38,21 @@ public class LocationPhotoController {
 
     @PostMapping(value = "/upload-location-photo", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public LocationPhoto uploadLocationPhoto(LocationPhotoRest locationPhotoRest) throws Exception {
+    public LocationPhotoRest uploadLocationPhoto(LocationPhotoRest locationPhotoRest) throws Exception {
         logger.info(locationPhotoRest.toString());
         verifyLocationCoOrdinates(locationPhotoRest);
+        locationPhotoRest.setCreationTime(ZonedDateTime.now());
         LocationPhoto locationPhoto = this.locationPhotoService.saveLocationPhoto(locationPhotoRest);
-        return locationPhoto;
+        return LocationPhotoRest.convertLocationPhotoToLocationPhotoRest(locationPhoto);
     }
 
 
-    @GetMapping(value = "/get-location-photos", consumes = MediaType.ALL_VALUE)
-    public List<LocationPhoto> getLocationPhoto(@RequestParam("searchquery") String searchQuery) {
+    @GetMapping(value = "/search-location-photos", consumes = MediaType.ALL_VALUE)
+    public List<LocationPhotoRest> searchLocationPhotos(@RequestParam("searchquery") String searchQuery) {
         logger.info(searchQuery);
         List<LocationPhoto> locationPhotos = this.locationPhotoService.getLocationPhoto(searchQuery);
-        return locationPhotos;
+        List<LocationPhotoRest> locationPhotoRests = locationPhotos.stream().map(LocationPhotoRest::convertLocationPhotoToLocationPhotoRest).collect(Collectors.toList());
+        return locationPhotoRests;
     }
 
     @DeleteMapping(value = "/delete-location-photo/{photoName}", consumes = MediaType.ALL_VALUE)
@@ -66,6 +73,11 @@ public class LocationPhotoController {
         return responseEntity;
     }
 
+    @ExceptionHandler({LocationPhotoNotSentException.class, LocationPhotoUrlNotSentException.class})
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleUserProfileDoesNotExist(Exception e) {
+        return Map.of("error", e.getMessage());
+    }
 
     void verifyLocationCoOrdinates(LocationPhotoRest locationPhotoRest) {
 //        if (Objects.nonNull(locationPhotoRest.getLongitude()) ||
