@@ -37,12 +37,12 @@ public class WeatherReport {
     public String toString() {
         return String.format("<WeatherReport(coords: %s, " +
                         "temp: %d, temp_feels_like: %d, " +
-                        "wind_speed: %d, wind_direction: \"%s\", humidity: %s, dew_point: %s, pressure: %s, " +
-                        "precipitation_probability: %d, precipitation_type: \"%s\"" +
-                        "summary: \"%s\")>", this.coords.toString(),
+                        "wind_speed: %d, wind_direction: \"%s\", humidity: %d, dew_point: %d, pressure: %d, " +
+                        "precipitation_probability: %d, summary: \"%s\", timestamp: %s)>",
+                this.coords.toString(),
                 this.temp, this.temp_feels_like,
                 this.wind_speed, this.wind_direction, this.humidity, this.dew_point, this.pressure,
                 this.precipitation_probability,
-                this.summary);
+                this.summary, this.timestamp.toString());
     }
 }

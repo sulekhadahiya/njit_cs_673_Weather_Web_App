@@ -82,4 +82,9 @@ public class WeatherBitForecastService implements IForecastService {
 
         return reports;
     }
+
+    @Override
+    public WeatherReport getHistoricalWeather(CoordPair coords, long timestamp) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("This API does not support historical weather reports");
+    }
 }

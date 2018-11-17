@@ -18,7 +18,8 @@ public class ForecastController {
     private static final String GET_CurrentWeather = "/now/{location}";
     private static final String GET_HourlyWeather = "/hourly/{location}";
     private static final String GET_5DayWeather = "/5day/{location}";
-    private static final String Get_10DayWeather = "/10day/{location}";
+    private static final String GET_10DayWeather = "/10day/{location}";
+    private static final String GET_HistoricalWeather = "/historical/{location}/{timestamp}";
 
     private final IGeolocationService geolocationService = new MapQuestGeolocationService();
 //    private final IForecastService shortForecastService = new NWSForecastService();
@@ -76,12 +77,23 @@ public class ForecastController {
         }
     }
 
-    @RequestMapping(value = Get_10DayWeather, method = RequestMethod.GET)
+    @RequestMapping(value = GET_10DayWeather, method = RequestMethod.GET)
     public @ResponseBody TenDayWeatherResponse get10DayWeather(@PathVariable String location) throws Exception {
         try {
             CoordPair coords = this.geolocationService.locationToCoords(location);
             List<WeatherReport> reports = this.longForecastService.get10DayWeather(coords);
             return new TenDayWeatherResponse(reports);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @RequestMapping(value = GET_HistoricalWeather, method = RequestMethod.GET)
+    public @ResponseBody CurrentWeatherResponse getHistoricalWeather(@PathVariable String location, @PathVariable long timestamp) throws Exception {
+        try {
+            CoordPair coords = this.geolocationService.locationToCoords(location);
+            WeatherReport report = this.shortForecastService.getHistoricalWeather(coords, timestamp);
+            return new CurrentWeatherResponse(report);
         } catch (Exception e) {
             throw e;
         }

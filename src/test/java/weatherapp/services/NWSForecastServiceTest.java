@@ -4,6 +4,7 @@ import org.junit.Test;
 import weatherapp.resources.WeatherReport;
 import weatherapp.utils.CoordPair;
 
+import java.time.Instant;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -11,6 +12,7 @@ import static org.junit.Assert.*;
 public class NWSForecastServiceTest {
     private static NWSForecastService service = new NWSForecastService();
     private static CoordPair testPoint = new CoordPair(39.0693, -94.6716);
+    private static Instant testTime = Instant.ofEpochSecond(1514764800); // January 1, 2018 0000 UTC
 
     @Test
     public void getCurrentWeather() {
@@ -22,8 +24,6 @@ public class NWSForecastServiceTest {
         assertNotNull(report.timestamp);
 
         assertNotEquals(0, report.summary.length());
-
-//        System.out.println(report);
     }
 
     @Test
@@ -39,10 +39,6 @@ public class NWSForecastServiceTest {
 
             assertNotEquals(0, report.summary.length());
         }
-
-//        for (WeatherReport report : reports) {
-//            System.out.println(report);
-//        }
     }
 
     @Test
@@ -58,14 +54,15 @@ public class NWSForecastServiceTest {
 
             assertNotEquals(0, report.summary.length());
         }
-
-//        for (WeatherReport report : reports) {
-//            System.out.println(report);
-//        }
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void get10DayWeather() {
         List<WeatherReport> reports = service.get10DayWeather(testPoint);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void getHistoricalWeather() {
+        WeatherReport report = service.getHistoricalWeather(testPoint, testTime.getEpochSecond());
     }
 }
