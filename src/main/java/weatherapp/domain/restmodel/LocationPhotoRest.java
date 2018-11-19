@@ -31,7 +31,7 @@ public class LocationPhotoRest {
     private String email;
     private String url;
     private ZonedDateTime creationTime;
-
+    private Float score;
     public LocationPhotoRest() {
     }
 
@@ -136,8 +136,17 @@ public class LocationPhotoRest {
         locationPhotoRest.setZipCode(locationPhoto.getZipCode());
         locationPhotoRest.setEmail(locationPhoto.getEmail());
         locationPhotoRest.setUrl(locationPhoto.getUrl());
+        locationPhotoRest.setScore(locationPhoto.getScore());
 //        locationPhotoRest.setCreationTime(locationPhoto.getCreationTime());
         return locationPhotoRest;
+    }
+
+    public Float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
     }
 
     public String getUrl() {
@@ -192,6 +201,7 @@ public class LocationPhotoRest {
                 ", latitude='" + latitude + '\'' +
                 ", email='" + email + '\'' +
                 ", url='" + url + '\'' +
+                ", score='" + score + '\'' +
                 ", creationTime='" + creationTime + '\'' +
                 '}';
     }
