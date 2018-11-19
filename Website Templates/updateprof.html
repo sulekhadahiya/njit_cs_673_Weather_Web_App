@@ -1,0 +1,32 @@
+<head>
+<title>Registration Form</title>
+	<meta name="robots" content="noindex, nofollow">
+	<link href="updateprofstyle.css" rel="stylesheet" type="text/css">
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="updateprof.js"></script>
+</head>
+<body>
+     <h1 class="LocWD" id="fName"></h1>  <!-- temp storage for json to be used in local storage func -->
+	<div class="container">
+	<div class="main">
+	<form class="form" method="post" action="#">
+		<h2>Update Profile Info</h2>
+		<label>Name :</label>
+		<input type="text" name="dname" id="name">
+		<label>Email :</label>
+		<input type="text" name="demail" id="email">
+		<!--<label>Password :</label>
+		<input type="password" name="password" id="password">
+		<label>Confirm Password :</label>
+		<input type="password" name="cpassword" id="cpassword">-->
+		<label>Update Favorite City :</label>
+		<input type="text" name="favcity" id="favcity">
+		<label>Image Upload :</label>
+		<input type="text" name="picurl" id="profilepicture">
+		<input type="button" name="register" id="register" value="Update"> <!--onclick="myFunction()"-->
+		<p class="message">Finished?</p>
+		<a href="userprofile.html">RETURN TO PROFILE PAGE</a> 
+	</form>
+	</div>
+</body>
+</html>

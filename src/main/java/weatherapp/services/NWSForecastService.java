@@ -91,6 +91,12 @@ public class NWSForecastService implements IForecastService {
         throw new UnsupportedOperationException("This API does not support 10-day weather reports");
     }
 
+
+    @Override
+    public WeatherReport getHistoricalWeather(CoordPair coords, long timestamp) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("This API does not support historical weather reports");
+    }
+
     private WeatherReport createWeatherReport(JsonNode data_node, double lat, double lon, String name) {
         WeatherReport report = new WeatherReport();
 

@@ -17,4 +17,7 @@ public interface IForecastService {
 
     // Get the daily weather forecast for 10 days.
     List<WeatherReport> get10DayWeather(CoordPair coords) throws Exception;
+
+    // Get historical weather reports.
+    WeatherReport getHistoricalWeather(CoordPair coords, long timestamp) throws Exception;
 }

@@ -17,6 +17,7 @@ public class DarkSkyForecastService implements IForecastService {
     private final String CURRENT_URL = "https://api.darksky.net/forecast/%s/%f,%f?exclude=minutely,hourly,daily,flags";
     private final String HOURLY_URL = "https://api.darksky.net/forecast/%s/%f,%f?exclude=currently,minutely,daily,flags";
     private final String FIVEDAY_URL = "https://api.darksky.net/forecast/%s/%f,%f?exclude=currently,minutely,hourly,flags";
+    private final String HISTORICAL_URL = "https://api.darksky.net/forecast/%s/%f,%f,%d?exclude=currently,hourly,flags";
     private final String API_KEY = "ebf9741c8eb658310ea1cb98175f612c";
 
     RestTemplate rest = new RestTemplate();
@@ -65,6 +66,16 @@ public class DarkSkyForecastService implements IForecastService {
     @Override
     public List<WeatherReport> get10DayWeather(CoordPair coords) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("This API does not support 10-day weather reports");
+    }
+
+    @Override
+    public WeatherReport getHistoricalWeather(CoordPair coords, long timestamp) {
+        JsonNode root = rest.getForObject(String.format(HISTORICAL_URL, API_KEY, coords.getLatitude(), coords.getLongitude(), timestamp), JsonNode.class);
+
+        ZoneId timezone = ZoneId.of(root.get("timezone").asText());
+        JsonNode data = root.get("daily").get("data").get(0);
+
+        return createWeatherReport(data, coords, timezone, true);
     }
 
     private WeatherReport createWeatherReport(JsonNode data, CoordPair coords, ZoneId timezone, boolean isDaily) {
