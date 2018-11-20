@@ -12,17 +12,23 @@ package weatherapp.domain.dbmodel;
  */
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.*;
 
+@Document
 public class UserProfile {
 
     @Id
     private String id;
     private Name name;
+    @Indexed(unique = true)
     private String email;
     private Map<String, Address> addresses = new HashMap<>();
     private List<String> favouriteCities = new ArrayList<>();
+    private String profilePhoto;
+    private boolean markSafe;
 
     public UserProfile() {
 
@@ -58,6 +64,14 @@ public class UserProfile {
         this.email = email;
     }
 
+    public boolean isMarkSafe() {
+        return markSafe;
+    }
+
+    public void setMarkSafe(boolean markSafe) {
+        this.markSafe = markSafe;
+    }
+
     public Map<String, Address> getAddresses() {
         Map<String, Address> addressMap = new HashMap<>();
         Set<String> keys = addresses.keySet();
@@ -66,7 +80,7 @@ public class UserProfile {
             //get the next key from iterator
             String key = keyIterator.next();
             //get the address corresponding to the key
-            Address address = addressMap.get(key);
+            Address address = this.addresses.get(key);
             //clone the address fields to new address object
             Address newaddress = address.cloneAddress();
             //save key and new address inside the map.
@@ -78,7 +92,7 @@ public class UserProfile {
 
     public void setAddresses(Map<String, Address> addresses) {
         Map<String, Address> addressMap = new HashMap<>();
-        Set<String> keySet = addressMap.keySet();
+        Set<String> keySet = addresses.keySet();
         Iterator<String> keysetIterator = keySet.iterator();
         while (keysetIterator.hasNext()) {
             String key = keysetIterator.next();
@@ -96,10 +110,10 @@ public class UserProfile {
 
     public void setFavouriteCities(List<String> favouriteCities) {
         List<String> cityList = new ArrayList<>();
-        Iterator<String> listIterator = cityList.iterator();
+        Iterator<String> listIterator = favouriteCities.iterator();
         while (listIterator.hasNext()) {
-            String cities = listIterator.next();
-            cityList.add(cities);
+            String city = listIterator.next();
+            cityList.add(city);
         }
         this.favouriteCities = cityList;
     }
@@ -112,14 +126,25 @@ public class UserProfile {
         this.id = id;
     }
 
+
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
+
     @Override
     public String toString() {
-        return "UserProfileRest{" +
+        return "UserProfile{" +
                 "id='" + id + '\'' +
                 ", name=" + name +
                 ", email='" + email + '\'' +
                 ", addresses=" + addresses +
                 ", favouriteCities=" + favouriteCities +
+                ", profilePhoto='" + profilePhoto + '\'' +
+                ", markSafe=" + markSafe +
                 '}';
     }
 }

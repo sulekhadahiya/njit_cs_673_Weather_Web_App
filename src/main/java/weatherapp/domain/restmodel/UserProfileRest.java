@@ -9,17 +9,21 @@ package weatherapp.domain.restmodel;
  * njit_cs_673_Weather_Web_App, 2018
  */
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import weatherapp.domain.dbmodel.Address;
 import weatherapp.domain.dbmodel.UserProfile;
 
 import java.util.*;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserProfileRest {
 
     private NameRest name;
     private String email;
     private Map<String, AddressRest> addresses = new HashMap<>();
     private List<String> favouriteCities = new ArrayList<>();
+    private String profilePhoto;
+    private boolean markSafe;
 
     public UserProfileRest() {
     }
@@ -31,6 +35,8 @@ public class UserProfileRest {
         userProfileRest.setName(NameRest.nameToNameRestConverter(userProfile.getName()));
         userProfileRest.setAddresses(addressMapToAddressRestMap(userProfile.getAddresses()));
         userProfileRest.setFavouriteCities(userProfile.getFavouriteCities());
+        userProfileRest.setProfilePhoto(userProfile.getProfilePhoto());
+        userProfileRest.setMarkSafe(userProfile.isMarkSafe());
         return userProfileRest;
     }
 
@@ -73,12 +79,28 @@ public class UserProfileRest {
         this.addresses = addresses;
     }
 
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
+
     public List<String> getFavouriteCities() {
         return favouriteCities;
     }
 
     public void setFavouriteCities(List<String> favouriteCities) {
         this.favouriteCities = favouriteCities;
+    }
+
+    public boolean isMarkSafe() {
+        return markSafe;
+    }
+
+    public void setMarkSafe(boolean markSafe) {
+        this.markSafe = markSafe;
     }
 
     public UserProfile userProfileRestToUserProfile() {
@@ -89,7 +111,7 @@ public class UserProfileRest {
         userProfile.setName(nameRest.nameRestToNameConverter());
         userProfile.setAddresses(addressRestMapToAddressMap());
         userProfile.setFavouriteCities(UserProfileRest.this.getFavouriteCities());
-
+        userProfile.setMarkSafe(UserProfileRest.this.isMarkSafe());
         return userProfile;
     }
 

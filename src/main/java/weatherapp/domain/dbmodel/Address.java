@@ -18,6 +18,7 @@ public class Address {
     private String zipCode;
     private String phoneNumber;
     private String country;
+    private LocationCoordinates locationCoordinates = new LocationCoordinates();
 
     public Address() {
 
@@ -79,6 +80,14 @@ public class Address {
         this.phoneNumber = phoneNumber;
     }
 
+    public LocationCoordinates getLocationCoordinates() {
+        return locationCoordinates;
+    }
+
+    public void setLocationCoordinates(LocationCoordinates locationCoordinates) {
+        this.locationCoordinates = locationCoordinates;
+    }
+
     public Address cloneAddress() {
         //create a new empty Address object
         Address address = new Address();
@@ -88,19 +97,22 @@ public class Address {
         address.setZipCode(this.getZipCode());
         address.setApartment(this.getApartment());
         address.setStreet(this.getStreet());
+        address.setLocationCoordinates(this.locationCoordinates.cloneLocationCoordinates());
         //return the cloned address
         return address;
     }
 
     @Override
     public String toString() {
-        return "AddressRest{" +
+        return "Address{" +
                 "street='" + street + '\'' +
                 ", apartment='" + apartment + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", zipCode='" + zipCode + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", country='" + country + '\'' +
+                ", locationCoordinates=" + locationCoordinates +
                 '}';
     }
 }
