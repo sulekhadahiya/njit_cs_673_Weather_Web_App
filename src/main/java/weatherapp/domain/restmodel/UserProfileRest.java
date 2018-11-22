@@ -13,12 +13,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import weatherapp.domain.dbmodel.Address;
 import weatherapp.domain.dbmodel.UserProfile;
 
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserProfileRest {
 
     private NameRest name;
+    @NotNull
     private String email;
     private Map<String, AddressRest> addresses = new HashMap<>();
     private List<String> favouriteCities = new ArrayList<>();
