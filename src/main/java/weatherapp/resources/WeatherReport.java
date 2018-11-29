@@ -1,10 +1,12 @@
+/*
+ * Copyright (c) 2018.
+ */
+
 package weatherapp.resources;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import weatherapp.utils.CoordPair;
 
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class WeatherReport {
     // Metadata

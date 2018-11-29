@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2018.
+  -->
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -106,12 +110,12 @@ var temperatures = {};
                     var table1 = document.getElementById("table1");
                     table1.innerHTML = "";
                     addHeader();
-                    var new_response = { "reports": {} }
+                    var new_response = {"reports": {}};
                     var time = new Date();
                     time.setHours(time.getHours() + 96);
                     for (var i = 0; i < response.reports.length; i++) {
-                        var date = new Date(response.reports[i].timestamp);
-                        if (date < time) {
+                        var dateRest = new Date(response.reports[i].timestamp);
+                        if (dateRest < time) {
                             addRow(response.reports[i]);
                         }
                     }

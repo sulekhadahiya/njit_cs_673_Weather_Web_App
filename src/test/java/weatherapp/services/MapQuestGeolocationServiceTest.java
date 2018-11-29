@@ -1,9 +1,13 @@
+/*
+ * Copyright (c) 2018.
+ */
+
 package weatherapp.services;
 
 import org.junit.Test;
 import weatherapp.utils.CoordPair;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MapQuestGeolocationServiceTest {
     private static MapQuestGeolocationService service = new MapQuestGeolocationService();

@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2018.
+  -->
+
 <!DOCTYPE html>
 <html>
 
@@ -92,8 +96,8 @@
 							
 							var photstr = photofull.replace('WorkAddress":{"street":"','');
 							var photstr2 = photstr.replace('{"longitude":null,"latitude":null','');
-							var photstr3= photstr2.replace('","apartment":null,"city":null,"state":null,"zipCode":null,"phoneNumber":null,"country":null,"locationCoordinatesRest":','');
-							var photstr4 = photstr3.replace('WorkAddress":{"street":null,"apartment":null,"city":null,"state":null,"zipCode":null,"phoneNumber":null,"country":null,"locationCoordinatesRest":','');
+                var photstr3 = photstr2.replace('","apartment":null,"cityRest":null,"state":null,"zipCode":null,"phoneNumber":null,"country":null,"locationCoordinatesRest":', '');
+                var photstr4 = photstr3.replace('WorkAddress":{"street":null,"apartment":null,"cityRest":null,"state":null,"zipCode":null,"phoneNumber":null,"country":null,"locationCoordinatesRest":', '');
 							console.log(photstr4);	
 							
 							
@@ -139,7 +143,15 @@
 		
 			</table>
 		</div>
-            <script> <!-- create table to show fav city weather info -->
+        <script> <!--
+        create;
+        table;
+        to;
+        show;
+        fav;
+        cityRest;
+        weather;
+        info; -->
 			$(document).ready(function() {
                 var table1 = document.getElementById("table1");
                 var n_tr = document.createElement("tr");
@@ -228,8 +240,8 @@
 		var photofull = myJSON.slice(photof,endphoto);
 		var photstr = photofull.replace('WorkAddress":{"street":"','');
 		var photstr2 = photstr.replace('{"longitude":null,"latitude":null','');
-		var photstr3= photstr2.replace('","apartment":null,"city":null,"state":null,"zipCode":null,"phoneNumber":null,"country":null,"locationCoordinatesRest":','');
-		var photstr4 = photstr3.replace('WorkAddress":{"street":null,"apartment":null,"city":null,"state":null,"zipCode":null,"phoneNumber":null,"country":null,"locationCoordinatesRest":','');
+            var photstr3 = photstr2.replace('","apartment":null,"cityRest":null,"state":null,"zipCode":null,"phoneNumber":null,"country":null,"locationCoordinatesRest":', '');
+            var photstr4 = photstr3.replace('WorkAddress":{"street":null,"apartment":null,"cityRest":null,"state":null,"zipCode":null,"phoneNumber":null,"country":null,"locationCoordinatesRest":', '');
 
 		
 		var piclist = photstr4.split(',');
@@ -238,7 +250,7 @@
 		for(i=0; i < piclist.length; i++){
 			var oHer = document.createElement("img");
 			oHer.src = piclist[i];
-			console.log("made it")
+            console.log("made it");
 			//oHer.height='20';
 			//oHer.height = '100px';
 			//oHer.setAttribute('width', '5');

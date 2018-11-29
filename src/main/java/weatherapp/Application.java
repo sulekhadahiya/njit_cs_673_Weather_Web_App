@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018.
+ */
+
 package weatherapp;
 
 import org.springframework.boot.SpringApplication;

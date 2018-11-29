@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018.
+ */
+
 $(document).ready(function() {
 	$("#register").click(function() {
 			var order ={

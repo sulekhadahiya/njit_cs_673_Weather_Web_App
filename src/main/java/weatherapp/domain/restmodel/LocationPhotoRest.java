@@ -10,6 +10,7 @@ import weatherapp.domain.dbmodel.LocationCoordinates;
 import weatherapp.domain.dbmodel.LocationPhoto;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 /**
@@ -137,7 +138,13 @@ public class LocationPhotoRest {
         locationPhotoRest.setEmail(locationPhoto.getEmail());
         locationPhotoRest.setUrl(locationPhoto.getUrl());
         locationPhotoRest.setScore(locationPhoto.getScore());
-//        locationPhotoRest.setCreationTime(locationPhoto.getCreationTime());
+        if (Objects.nonNull(locationPhoto.getCreationTime())) {
+            try {
+                locationPhotoRest.setCreationTime(ZonedDateTime.parse(locationPhoto.getCreationTime()));
+            } catch (DateTimeParseException dateTimeParseException) {
+                //do nothing
+            }
+        }
         return locationPhotoRest;
     }
 
@@ -177,7 +184,7 @@ public class LocationPhotoRest {
         locationPhoto.setZipCode(this.zipCode);
         locationPhoto.setEmail(this.email);
         locationPhoto.setUrl(this.url);
-//        locationPhoto.setCreationTime(this.creationTime);
+        locationPhoto.setCreationTime(ZonedDateTime.now().toString());
         return locationPhoto;
     }
 

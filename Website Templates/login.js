@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018.
+ */
+
 $(document).ready(function() {
 	$("#login").click(function() {
 		var x = document.getElementById("email").value;
