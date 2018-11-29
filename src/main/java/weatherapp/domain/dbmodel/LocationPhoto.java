@@ -10,8 +10,6 @@ import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.TextScore;
 
-import java.time.ZonedDateTime;
-
 /**
  * @author sulekha
  * njit_cs_673_Weather_Web_App, 2018
@@ -46,8 +44,8 @@ public class LocationPhoto {
     private String email;
     @TextIndexed
     private String url;
-
-    private ZonedDateTime creationTime;
+    @TextIndexed
+    private String creationTime;
 
     public LocationPhoto() {
     }
@@ -164,11 +162,11 @@ public class LocationPhoto {
         this.email = email;
     }
 
-    public ZonedDateTime getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(ZonedDateTime creationTime) {
+    public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
 

@@ -4,7 +4,7 @@
 
 buildscript {
   ext {
-    springBootVersion = '2.0.6.RELEASE'
+    springBootVersion = '2.1.0.RELEASE'
   }
   repositories {
     mavenCentral()
@@ -32,7 +32,7 @@ idea {
 
 bootJar {
   baseName = 'cs673-weatherapp-server'
-  version = '0.1.16'
+  version = '0.1.17'
 }
 
 repositories {

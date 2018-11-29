@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018.
+ */
+
 package weatherapp.services;
 
 import org.junit.Test;
@@ -5,7 +9,7 @@ import weatherapp.utils.CoordPair;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class NWSMapServiceTest {
     private static NWSMapService service = new NWSMapService();

@@ -1,9 +1,13 @@
+/*
+ * Copyright (c) 2018.
+ */
+
 package weatherapp.utils;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class CoordPairTest {
     private CoordPair pair;

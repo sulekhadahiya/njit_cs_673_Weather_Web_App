@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018.
+ */
+
 package weatherapp.controllers.responses;
 
 import java.util.List;

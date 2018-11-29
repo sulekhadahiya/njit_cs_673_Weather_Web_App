@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2018.
+ */
+
 package weatherapp.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.web.client.RestTemplate;
-
 import weatherapp.utils.CoordPair;
 import weatherapp.utils.exceptions.LocationNotFoundException;
 

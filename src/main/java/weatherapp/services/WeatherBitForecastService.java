@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018.
+ */
+
 package weatherapp.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
