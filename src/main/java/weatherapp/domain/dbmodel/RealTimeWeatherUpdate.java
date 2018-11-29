@@ -6,6 +6,7 @@ package weatherapp.domain.dbmodel;
 
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.TextScore;
 
 @Document
 public class RealTimeWeatherUpdate {
@@ -15,6 +16,8 @@ public class RealTimeWeatherUpdate {
     private String city;
     @TextIndexed
     private String date;
+    @TextScore
+    Float score;
 
     public RealTimeWeatherUpdate() {
     }
@@ -41,6 +44,14 @@ public class RealTimeWeatherUpdate {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
     }
 
     @Override

@@ -16,7 +16,7 @@ public class RealTimeWeatherUpdateRest {
     private String weatherUpdateRest;
     private String cityRest;
     private ZonedDateTime zonedDateTimeRest;
-
+    private Float score;
     public RealTimeWeatherUpdateRest() {
     }
 
@@ -24,6 +24,7 @@ public class RealTimeWeatherUpdateRest {
         RealTimeWeatherUpdateRest realTimeWeatherUpdateRest = new RealTimeWeatherUpdateRest();
         realTimeWeatherUpdateRest.setCityRest(realTimeWeatherUpdate.getCity());
         realTimeWeatherUpdateRest.setWeatherUpdateRest(realTimeWeatherUpdate.getWeatherUpdate());
+        realTimeWeatherUpdateRest.setScore(realTimeWeatherUpdate.getScore());
         if (Objects.nonNull(realTimeWeatherUpdate.getDate())) {
             try {
                 realTimeWeatherUpdateRest.setZonedDateTimeRest(ZonedDateTime.parse(realTimeWeatherUpdate.getDate()));
@@ -56,6 +57,14 @@ public class RealTimeWeatherUpdateRest {
 
     public void setZonedDateTimeRest(ZonedDateTime zonedDateTimeRest) {
         this.zonedDateTimeRest = zonedDateTimeRest;
+    }
+
+    public Float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
     }
 
     @Override

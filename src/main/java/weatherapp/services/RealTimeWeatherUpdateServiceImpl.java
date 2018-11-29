@@ -4,6 +4,9 @@
 
 package weatherapp.services;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 import weatherapp.domain.dbmodel.RealTimeWeatherUpdate;
 import weatherapp.repositories.RealTimeWeatherUpdateRepository;
@@ -18,10 +21,6 @@ public class RealTimeWeatherUpdateServiceImpl implements RealTimeWeatherUpdateSe
         this.realTimeWeatherUpdateRepository = realTimeWeatherUpdateRepository;
     }
 
-    public RealTimeWeatherUpdateServiceImpl() {
-
-    }
-
     @Override
     public RealTimeWeatherUpdate saveRealTimeWeatherUpdate(RealTimeWeatherUpdate realTimeWeatherUpdate) {
         RealTimeWeatherUpdate saved = realTimeWeatherUpdateRepository.save(realTimeWeatherUpdate);
@@ -30,7 +29,12 @@ public class RealTimeWeatherUpdateServiceImpl implements RealTimeWeatherUpdateSe
 
     @Override
     public List<RealTimeWeatherUpdate> getRealTimeWeatherUpdate(String city) {
-        List<RealTimeWeatherUpdate> byCity = realTimeWeatherUpdateRepository.findByCity(city);
+        Query query = new Query();
+        TextCriteria textCriteria = new TextCriteria();
+        textCriteria.matching(city);
+        query.addCriteria(textCriteria);
+        Sort sort = Sort.by("score");
+        List<RealTimeWeatherUpdate> byCity = realTimeWeatherUpdateRepository.findBy(textCriteria, sort);
         return byCity;
     }
 }
